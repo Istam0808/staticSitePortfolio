@@ -117,3 +117,38 @@
             emailModal.style.display = 'none';
         }
     });
+
+    // Обработка бургер-меню
+    // Обработка бургер-меню
+    const burgerMenu = document.querySelector('.burger-menu');
+    const nav = document.querySelector('nav');
+    
+    // Функция для переключения состояния меню
+    function toggleMenu() {
+        burgerMenu.classList.toggle('active');
+        nav.classList.toggle('active');
+    }
+    
+    // Обработчик клика по бургер-меню и крестику
+    burgerMenu.addEventListener('click', (e) => {
+        // Проверяем, был ли клик по крестику или по бургер-иконке
+        if (e.target.classList.contains('close-burger') || e.target.closest('.burger-icon')) {
+            toggleMenu();
+        }
+    });
+    
+    // Закрытие меню при клике на пункт меню
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', () => {
+            toggleMenu();
+        });
+    });
+    
+    // Закрытие меню при клике вне меню
+    document.addEventListener('click', (e) => {
+        if (nav.classList.contains('active') && 
+            !e.target.closest('.burger-menu') && 
+            !e.target.closest('nav')) {
+            toggleMenu();
+        }
+    });
