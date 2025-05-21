@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Ваше Имя</h1>
+        <p>Веб-разработчик | Фронтенд | Бэкенд</p>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#about">Обо мне</a></li>
+            <li><a href="#projects">Проекты</a></li>
+            <li><a href="#contact">Контакты</a></li>
+        </ul>
+    </nav>
+    <section id="about">
+        <h2>Обо мне</h2>
+        <p>Краткая информация о себе, опыте и навыках.</p>
+    </section>
+    <section id="projects">
+        <h2>Проекты</h2>
+        <div class="project">
+            <h3>Название проекта 1</h3>
+            <p>Описание проекта, использованные технологии.</p>
+            <a href="#">Ссылка на проект</a>
+        </div>
+        <div class="project">
+            <h3>Название проекта 2</h3>
+            <p>Описание проекта, использованные технологии.</p>
+            <a href="#">Ссылка на проект</a>
+        </div>
+    </section>
+    <section id="contact">
+        <h2>Контакты</h2>
+        <ul>
+            <li>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></li>
+            <li>LinkedIn: <a href="#">Ваш профиль</a></li>
+            <li>GitHub: <a href="#">Ваш профиль</a></li>
+        </ul>
+    </section>
+    <footer>
+        <p>&copy; 2024 Ваше Имя</p>
+    </footer>
+</body>
+<style>
+
+    html{
+        scroll-behavior: smooth;
+    }
+
+    section {
+        min-height: 100vh;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f7f7f7;
+        color: #222;
+    }
+
+    header {
+        background: #222;
+        color: #fff;
+        padding: 40px 0 20px 0;
+        text-align: center;
+    }
+
+    nav {
+        background: #444;
+        padding: 10px 0;
+    }
+
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    nav ul li {
+        display: inline-block;
+        margin: 0 20px;
+    }
+
+    nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.2s;
+    }
+
+    nav ul li a:hover {
+        color: #ffd700;
+    }
+
+    section {
+        max-width: 800px;
+        margin: 40px auto;
+        background: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .project {
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eee;
+    }
+
+    .project:last-child {
+        border-bottom: none;
+    }
+
+    .project h3 {
+        margin-top: 0;
+        color: #444;
+    }
+
+    .project a {
+        color: #007acc;
+        text-decoration: none;
+    }
+
+    .project a:hover {
+        text-decoration: underline;
+    }
+
+    footer {
+        text-align: center;
+        padding: 20px 0;
+        background: #222;
+        color: #fff;
+        margin-top: 40px;
+        font-size: 0.9em;
+    }
+
+    @media (max-width: 600px) {
+        section {
+            padding: 15px;
+        }
+        nav ul li {
+            display: block;
+            margin: 10px 0;
+        }
+    }
+</style>
+</html>
