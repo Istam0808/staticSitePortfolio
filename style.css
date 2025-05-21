@@ -451,6 +451,97 @@ nav a:hover::after {
     }
 }
 
+/* Улучшенная навигация для мобильных */
+nav {
+    padding: 0.8rem 0;
+}
+
+nav ul {
+    padding: 0 1rem;
+    font-size: 0.9rem;
+}
+
+/* Улучшенный герой-раздел */
+.hero-content p {
+    font-size: 1rem;
+    padding: 0 1rem;
+}
+
+/* Улучшенные карточки */
+.skill-card,
+.feature-card {
+    padding: 1.5rem;
+}
+
+.skill-icon,
+.feature-icon {
+    font-size: 2rem;
+}
+
+/* Улучшенный контактный раздел */
+.contact-content {
+    padding: 2rem 1rem;
+}
+
+.contact-link {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 2rem;
+}
+
+
+/* Добавляем стили для очень маленьких экранов */
+@media (max-width: 480px) {
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 1rem;
+    }
+    
+    .avatar {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .modal-content {
+        padding: 1.5rem;
+    }
+    
+    .phone-number .link-number {
+        font-size: 1.4rem;
+    }
+}
+
+/* Добавляем стили для ландшафтной ориентации на мобильных */
+@media (max-height: 480px) and (orientation: landscape) {
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 4rem 0;
+    }
+    
+    .avatar {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+    }
+}
+
 /* Fade in animation */
 .fade-in {
     opacity: 0;
@@ -526,7 +617,7 @@ nav a:hover::after {
     background-clip: text;
 }
 
-.phone-number {
+.phone-number .link-number {
     font-size: 1.8rem;
     font-weight: 600;
     color: #e6e7ff;
