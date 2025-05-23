@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="/аватар.JPG" type="image/x-icon">
+    <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <title>Мамадалиев Истам - Frontend Developer</title>
 </head>
@@ -18,7 +20,7 @@
             <span></span>
             <span></span>
         </div>
-        <div class="close-burger">×</div>
+        <div class="close-burger"><i class="bi bi-x-lg"></i></div>
     </div>
 
     <nav>
@@ -37,7 +39,7 @@
                 <div class="avatar"><img src="аватар.JPG" alt=""></div>
                 <h1>Мамадалиев Истам</h1>
                 <h2>Frontend Developer</h2>
-                <p>🎨 Привет! Я превращаю макеты в живые, динамичные интерфейсы 🧙‍♂️</p>
+                <p><i class="bi bi-palette"></i> Привет! Я превращаю макеты в живые, динамичные интерфейсы <i class="bi bi-magic"></i></p>
             </div>
         </div>
     </section>
@@ -56,25 +58,25 @@
 
     <section id="skills" class="section">
         <div class="container">
-            <h2 class="section-title fade-in">🔥 Мой стек технологий</h2>
+            <h2 class="section-title fade-in"><i class="bi bi-fire"></i> Мой стек технологий</h2>
             <div class="skills-grid">
                 <div class="skill-card fade-in">
-                    <div class="skill-icon">⚛️</div>
+                    <div class="skill-icon"><i class="bi bi-filetype-jsx"></i></div>
                     <h3>React</h3>
                     <p>Современные компоненты и хуки для интерактивных интерфейсов</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon">🚀</div>
+                    <div class="skill-icon"><i class="bi bi-rocket-takeoff"></i></div>
                     <h3>Next.js</h3>
                     <p>Полнофункциональные приложения с серверным рендерингом</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon">💻</div>
+                    <div class="skill-icon"><i class="bi bi-code-slash"></i></div>
                     <h3>JavaScript</h3>
                     <p>ES6+, асинхронное программирование, современный JS</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon">🎨</div>
+                    <div class="skill-icon"><i class="bi bi-palette2"></i></div>
                     <h3>Sass/SCSS</h3>
                     <p>Стильная и поддерживаемая архитектура стилей</p>
                 </div>
@@ -84,25 +86,25 @@
 
     <section id="features" class="section">
         <div class="container">
-            <h2 class="section-title fade-in">💡 Что вы получаете со мной</h2>
+            <h2 class="section-title fade-in"><i class="bi bi-lightbulb"></i> Что вы получаете со мной</h2>
             <div class="features-grid">
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">📱</div>
+                    <div class="feature-icon"><i class="bi bi-phone"></i></div>
                     <h3>Современная адаптивная верстка</h3>
                     <p>Ваш сайт будет идеально выглядеть на всех устройствах</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">✨</div>
+                    <div class="feature-icon"><i class="bi bi-stars"></i></div>
                     <h3>Стильные UI-компоненты</h3>
                     <p>Красивые анимации и интерактивные элементы</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">⚡</div>
+                    <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
                     <h3>Высокая производительность</h3>
                     <p>Быстрая загрузка и оптимизированный код</p>
                 </div>
                 <div class="feature-card fade-in">
-                    <div class="feature-icon">⏰</div>
+                    <div class="feature-icon"><i class="bi bi-alarm"></i></div>
                     <h3>Соблюдение дедлайнов</h3>
                     <p>Ваш проект будет готов точно в срок</p>
                 </div>
@@ -113,21 +115,21 @@
     <section id="contact" class="contact section">
         <div class="container">
             <div class="contact-content">
-                <h2 class="section-title fade-in" style="color: white;">📩 Давайте создадим что-то крутое!</h2>
+                <h2 class="section-title fade-in" style="color: white;"><i class="bi bi-envelope"></i> Давайте создадим что-то крутое!</h2>
                 <p class="fade-in" style="font-size: 1.2rem; margin-bottom: 2rem;">
                     Готов сделать ваш сайт удобным, красивым и мощным!
                 </p>
                 <div class="contact-links fade-in">
                     <a href="https://github.com/Istam0808" target="_blank" class="contact-link">
-                        <span>🐙</span>
+                        <i class="bi bi-github"></i>
                         GitHub
                     </a>
                     <a href="#" class="contact-link" onclick="openEmailModal(event)">
-                        <span>📧</span>
+                        <i class="bi bi-envelope-fill"></i>
                         Email
                     </a>
                     <a href="#" class="contact-link" onclick="openPhoneModal(event)">
-                        <span>📱</span>
+                        <i class="bi bi-telephone-fill"></i>
                         Телефон
                     </a>
                 </div>
@@ -138,7 +140,7 @@
     <!-- Добавляем модальное окно -->
     <div id="phoneModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal"><i class="bi bi-x-lg"></i></span>
             <h2>Мамадалиев Истам</h2>
             <p class="phone-number"><a class="link-number" href="tel:+998915295337">+998 91 529 53 37</a></p>
         </div>
@@ -147,15 +149,13 @@
     <!-- Добавляем модальное окно для email -->
     <div id="emailModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeEmailModal()">&times;</span>
+            <span class="close-modal" onclick="closeEmailModal()"><i class="bi bi-x-lg"></i></span>
             <h2>Мой Email</h2>
             <a href="mailto:istam@example.com" class="email-link">mamadaliyevistam@gmail.com</a>
             <p class="modal-hint">Нажмите на email для отправки сообщения</p>
         </div>
     </div>
     
-    <script src="main.js">
-    
-    </script>
+    <script src="main.js"></script>
 </body>
 </html>

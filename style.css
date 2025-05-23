@@ -689,76 +689,32 @@ nav ul {
     top: 16px;
 }
 
-/* Анимация для активного состояния */
-.burger-menu.active .burger-icon span:nth-child(1) {
-    transform: rotate(45deg);
-    top: 8px;
-}
-
-.burger-menu.active .burger-icon span:nth-child(2) {
-    opacity: 0;
-}
-
-.burger-menu.active .burger-icon span:nth-child(3) {
-    transform: rotate(-45deg);
-    top: 8px;
-}
-
-/* Медиа-запрос для мобильных устройств */
-@media screen and (max-width: 768px) {
-    .burger-menu {
-        display: block;
-    }
-
-    nav {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        width: 70%;
-        height: 100vh;
-        background: rgba(0, 0, 0, 0.9);
-        padding: 80px 20px;
-        transition: 0.3s;
-    }
-
-    nav.active {
-        right: 0;
-    }
-
-    nav ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    nav ul li {
-        margin: 20px 0;
-    }
-}
-
 /* Стили для крестика в бургер-меню */
 .close-burger {
     display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0px;
+    right: 0px;
     font-size: 30px;
     color: #fff;
     cursor: pointer;
-}
-
-.burger-menu.active .burger-icon {
-    display: none;
-}
-
-.burger-menu.active .close-burger {
-    display: block;
+    z-index: 1100; /* Увеличиваем z-index, чтобы крестик был поверх меню */
 }
 
 /* Медиа-запрос для мобильных устройств */
 @media screen and (max-width: 768px) {
     .burger-menu {
         display: block;
+        z-index: 1100; /* Увеличиваем z-index бургер-меню */
+    }
+    
+    .burger-menu.active .close-burger {
+        display: block;
+        /* Удаляем неправильный размер шрифта */
+    }
+    
+    .burger-menu.active .burger-icon {
+        display: none;
     }
 
     nav {
@@ -770,6 +726,7 @@ nav ul {
         background: rgba(0, 0, 0, 0.9);
         padding: 80px 20px;
         transition: 0.3s;
+        z-index: 1050; /* Устанавливаем z-index меньше, чем у крестика */
     }
 
     nav.active {
