@@ -28,18 +28,24 @@
             <li><a href="#home">Главная</a></li>
             <li><a href="#about">О себе</a></li>
             <li><a href="#skills">Навыки</a></li>
+            <li><a href="#projects">Проекты</a></li>
             <li><a href="#features">Что получаете</a></li>
             <li><a href="#contact">Контакты</a></li>
         </ul>
     </nav>
 
     <section id="home" class="hero">
+        <div class="animated-bg"></div>
         <div class="container">
             <div class="hero-content">
                 <div class="avatar"><img src="аватар.JPG" alt=""></div>
                 <h1>Мамадалиев Истам</h1>
                 <h2>Frontend Developer</h2>
                 <p><i class="bi bi-palette"></i> Привет! Я превращаю макеты в живые, динамичные интерфейсы <i class="bi bi-magic"></i></p>
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">Мои проекты</a>
+                    <a href="#contact" class="btn btn-secondary">Связаться</a>
+                </div>
             </div>
         </div>
     </section>
@@ -108,6 +114,90 @@
                     <h3>Соблюдение дедлайнов</h3>
                     <p>Ваш проект будет готов точно в срок</p>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="bi bi-code-square"></i> Мои проекты</h2>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400" alt="Проект 1">
+                        <div class="project-overlay">
+                            <a href="#" class="project-link"><i class="bi bi-link-45deg"></i></a>
+                            <a href="#" class="project-github"><i class="bi bi-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Интернет-магазин</h3>
+                        <p>Современный адаптивный интернет-магазин с корзиной и оформлением заказа</p>
+                        <div class="project-tags">
+                            <span>React</span>
+                            <span>Redux</span>
+                            <span>Firebase</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <img src="https://via.placeholder.com/600x400" alt="Проект 2">
+                        <div class="project-overlay">
+                            <a href="#" class="project-link"><i class="bi bi-link-45deg"></i></a>
+                            <a href="#" class="project-github"><i class="bi bi-github"></i></a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Дашборд аналитики</h3>
+                        <p>Панель управления с графиками и визуализацией данных</p>
+                        <div class="project-tags">
+                            <span>Next.js</span>
+                            <span>Chart.js</span>
+                            <span>Tailwind</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in"><i class="bi bi-chat-quote"></i> Отзывы клиентов</h2>
+            <div class="testimonials-slider">
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        <p>"Истам создал для нас потрясающий сайт, который превзошел все наши ожидания. Работа была выполнена в срок и с высоким качеством."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Алексей Петров</h4>
+                            <p>CEO, TechStart</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <div class="testimonial-content">
+                        <p>"Отличная работа! Сайт работает безупречно на всех устройствах, загружается быстро и выглядит современно."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+                        <div class="testimonial-info">
+                            <h4>Мария Иванова</h4>
+                            <p>Маркетолог, BrandNew</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
             </div>
         </div>
     </section>
