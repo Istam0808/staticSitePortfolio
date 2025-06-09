@@ -3,45 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="/аватар.JPG" type="image/x-icon">
-    <!-- Bootstrap Icons CSS -->
+    <link rel="shortcut icon" href="аватар.JPG" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <title>Мамадалиев Истам - Frontend Developer</title>
 </head>
 <body>
-    <div class="scroll-indicator" id="scrollIndicator"></div>
+    <!-- Анимированный фон -->
+    <div class="animated-background"></div>
     
-    <div class="particles" id="particles"></div>
-
-    <div class="burger-menu">
-        <div class="burger-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="close-burger"><i class="bi bi-x-lg"></i></div>
+    <!-- Прогресс скролла -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+    
+    <!-- Контейнер для частиц -->
+    <div id="particles" class="particles-container"></div>
+    
+    <!-- Плавающие элементы -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
     </div>
 
-    <nav>
-        <ul>
-            <li><a href="#home">Главная</a></li>
-            <li><a href="#about">О себе</a></li>
-            <li><a href="#skills">Навыки</a></li>
-            <li><a href="#projects">Проекты</a></li>
-            <li><a href="#features">Что получаете</a></li>
-            <li><a href="#contact">Контакты</a></li>
-        </ul>
-    </nav>
+    <!-- Навигация -->
+    <div class="nav-container" id="navContainer">
+        <nav>
+            <ul>
+                <li><a href="#home" class="nav-link active">Главная</a></li>
+                <li><a href="#about" class="nav-link">О себе</a></li>
+                <li><a href="#skills" class="nav-link">Навыки</a></li>
+                <li><a href="#experience" class="nav-link">Опыт</a></li>
+                <li><a href="#projects" class="nav-link">Проекты</a></li>
+                <li><a href="#features" class="nav-link">Что получаете</a></li>
+                <li><a href="#contact" class="nav-link">Контакты</a></li>
+            </ul>
+        </nav>
+    </div>
 
+    <!-- Мобильное меню -->
+    <div class="mobile-menu-btn" id="mobileMenuBtn">
+        <div class="hamburger"></div>
+    </div>
+
+    <!-- Главная секция -->
     <section id="home" class="hero">
-        <div class="animated-bg"></div>
         <div class="container">
             <div class="hero-content">
-                <div class="avatar"><img src="аватар.JPG" alt=""></div>
+                <div class="hero-avatar">
+                    <img src="IMG_E2541.jpg" alt="Мамадалиев Истам">
+                </div>
                 <h1>Мамадалиев Истам</h1>
                 <h2>Frontend Developer</h2>
-                <p><i class="bi bi-palette"></i> Привет! Я превращаю макеты в живые, динамичные интерфейсы <i class="bi bi-magic"></i></p>
+                <p class="hero-description">Привет! Я превращаю макеты в живые, динамичные интерфейсы с современными технологиями и креативным подходом</p>
                 <div class="hero-buttons">
                     <a href="#projects" class="btn btn-primary">Мои проекты</a>
                     <a href="#contact" class="btn btn-secondary">Связаться</a>
@@ -50,11 +63,12 @@
         </div>
     </section>
 
+    <!-- О себе -->
     <section id="about" class="section">
         <div class="container">
             <h2 class="section-title fade-in">О себе</h2>
             <div class="fade-in" style="text-align: center; max-width: 800px; margin: 0 auto;">
-                <p style="font-size: 1.2rem; line-height: 1.8; color: #666;">
+                <p style="font-size: 1.2rem; line-height: 1.8; color: var(--text-secondary);">
                     Я frontend разработчик с страстью к созданию современных и интуитивно понятных пользовательских интерфейсов. 
                     Превращаю идеи в красивые, функциональные веб-приложения, которые радуют пользователей и помогают бизнесу расти.
                 </p>
@@ -62,27 +76,28 @@
         </div>
     </section>
 
+    <!-- Навыки -->
     <section id="skills" class="section">
         <div class="container">
-            <h2 class="section-title fade-in"><i class="bi bi-fire"></i> Мой стек технологий</h2>
+            <h2 class="section-title fade-in">Мой стек технологий</h2>
             <div class="skills-grid">
                 <div class="skill-card fade-in">
-                    <div class="skill-icon"><i class="bi bi-filetype-jsx"></i></div>
+                    <div class="skill-icon">⚛️</div>
                     <h3>React</h3>
                     <p>Современные компоненты и хуки для интерактивных интерфейсов</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon"><i class="bi bi-rocket-takeoff"></i></div>
+                    <div class="skill-icon">🚀</div>
                     <h3>Next.js</h3>
                     <p>Полнофункциональные приложения с серверным рендерингом</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon"><i class="bi bi-code-slash"></i></div>
+                    <div class="skill-icon">💻</div>
                     <h3>JavaScript</h3>
                     <p>ES6+, асинхронное программирование, современный JS</p>
                 </div>
                 <div class="skill-card fade-in">
-                    <div class="skill-icon"><i class="bi bi-palette2"></i></div>
+                    <div class="skill-icon">🎨</div>
                     <h3>Sass/SCSS</h3>
                     <p>Стильная и поддерживаемая архитектура стилей</p>
                 </div>
@@ -90,49 +105,98 @@
         </div>
     </section>
 
-    <section id="features" class="section">
+    <!-- Таймлайн опыта (новая секция) -->
+    <section id="experience" class="section">
         <div class="container">
-            <h2 class="section-title fade-in"><i class="bi bi-lightbulb"></i> Что вы получаете со мной</h2>
-            <div class="features-grid">
-                <div class="feature-card fade-in">
-                    <div class="feature-icon"><i class="bi bi-phone"></i></div>
-                    <h3>Современная адаптивная верстка</h3>
-                    <p>Ваш сайт будет идеально выглядеть на всех устройствах</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon"><i class="bi bi-stars"></i></div>
-                    <h3>Стильные UI-компоненты</h3>
-                    <p>Красивые анимации и интерактивные элементы</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon"><i class="bi bi-lightning-charge"></i></div>
-                    <h3>Высокая производительность</h3>
-                    <p>Быстрая загрузка и оптимизированный код</p>
-                </div>
-                <div class="feature-card fade-in">
-                    <div class="feature-icon"><i class="bi bi-alarm"></i></div>
-                    <h3>Соблюдение дедлайнов</h3>
-                    <p>Ваш проект будет готов точно в срок</p>
+            <h2 class="section-title fade-in">Мой путь</h2>
+            <div class="timeline-container fade-in">
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2020</div>
+                        <div class="timeline-content">
+                            <h3>Начало пути</h3>
+                            <p>Первые шаги в веб-разработке. Изучение HTML, CSS и основ JavaScript.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2021</div>
+                        <div class="timeline-content">
+                            <h3>Первые проекты</h3>
+                            <p>Создание первых коммерческих проектов и углубленное изучение JavaScript.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2022</div>
+                        <div class="timeline-content">
+                            <h3>Фреймворки</h3>
+                            <p>Освоение React и Next.js. Работа над более сложными проектами.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-date">2023</div>
+                        <div class="timeline-content">
+                            <h3>Профессиональный рост</h3>
+                            <p>Работа над крупными проектами и расширение стека технологий.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Что получаете -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Что вы получаете со мной</h2>
+            <div class="features-grid">
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">📱</div>
+                    <h3>Современная адаптивная верстка</h3>
+                    <p>Ваш сайт будет идеально выглядеть на всех устройствах - от телефонов до больших мониторов</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">✨</div>
+                    <h3>Стильные UI-компоненты</h3>
+                    <p>Красивые анимации и интерактивные элементы, которые привлекают внимание пользователей</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Высокая производительность</h3>
+                    <p>Быстрая загрузка и оптимизированный код для лучшего пользовательского опыта</p>
+                </div>
+                <div class="feature-card fade-in">
+                    <div class="feature-icon">⏰</div>
+                    <h3>Соблюдение дедлайнов</h3>
+                    <p>Ваш проект будет готов точно в срок с учетом всех пожеланий и требований</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Проекты -->
     <section id="projects" class="section">
         <div class="container">
-            <h2 class="section-title fade-in"><i class="bi bi-code-square"></i> Мои проекты</h2>
+            <h2 class="section-title fade-in">Мои проекты</h2>
             <div class="projects-grid">
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img src="https://via.placeholder.com/600x400" alt="Проект 1">
+                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" alt="Интернет-магазин">
                         <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="bi bi-link-45deg"></i></a>
-                            <a href="#" class="project-github"><i class="bi bi-github"></i></a>
+                            <a href="#" class="project-link">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                            <a href="#" class="project-github">
+                                <i class="bi bi-github"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="project-info">
                         <h3>Интернет-магазин</h3>
-                        <p>Современный адаптивный интернет-магазин с корзиной и оформлением заказа</p>
+                        <p>Современный адаптивный интернет-магазин с корзиной, фильтрацией товаров и оформлением заказа</p>
                         <div class="project-tags">
                             <span>React</span>
                             <span>Redux</span>
@@ -142,15 +206,19 @@
                 </div>
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img src="https://via.placeholder.com/600x400" alt="Проект 2">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Дашборд аналитики">
                         <div class="project-overlay">
-                            <a href="#" class="project-link"><i class="bi bi-link-45deg"></i></a>
-                            <a href="#" class="project-github"><i class="bi bi-github"></i></a>
+                            <a href="#" class="project-link">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                            <a href="#" class="project-github">
+                                <i class="bi bi-github"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="project-info">
                         <h3>Дашборд аналитики</h3>
-                        <p>Панель управления с графиками и визуализацией данных</p>
+                        <p>Интерактивная панель управления с графиками, диаграммами и визуализацией данных в реальном времени</p>
                         <div class="project-tags">
                             <span>Next.js</span>
                             <span>Chart.js</span>
@@ -158,21 +226,44 @@
                         </div>
                     </div>
                 </div>
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Веб-приложение">
+                        <div class="project-overlay">
+                            <a href="#" class="project-link">
+                                <i class="bi bi-link-45deg"></i>
+                            </a>
+                            <a href="#" class="project-github">
+                                <i class="bi bi-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>CRM-система</h3>
+                        <p>Система управления клиентами с функциями учета, отчетности и автоматизации бизнес-процессов</p>
+                        <div class="project-tags">
+                            <span>React</span>
+                            <span>Node.js</span>
+                            <span>MongoDB</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- Отзывы -->
     <section id="testimonials" class="section">
         <div class="container">
-            <h2 class="section-title fade-in"><i class="bi bi-chat-quote"></i> Отзывы клиентов</h2>
-            <div class="testimonials-slider">
+            <h2 class="section-title fade-in">Отзывы клиентов</h2>
+            <div class="testimonials-container">
                 <div class="testimonial-card fade-in">
                     <div class="testimonial-content">
                         <p>"Истам создал для нас потрясающий сайт, который превзошел все наши ожидания. Работа была выполнена в срок и с высоким качеством."</p>
                     </div>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">
-                            <i class="bi bi-person-circle"></i>
+                            👨‍💼
                         </div>
                         <div class="testimonial-info">
                             <h4>Алексей Петров</h4>
@@ -186,7 +277,7 @@
                     </div>
                     <div class="testimonial-author">
                         <div class="testimonial-avatar">
-                            <i class="bi bi-person-circle"></i>
+                            👩‍💼
                         </div>
                         <div class="testimonial-info">
                             <h4>Мария Иванова</h4>
@@ -195,18 +286,15 @@
                     </div>
                 </div>
             </div>
-            <div class="testimonial-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-            </div>
         </div>
     </section>
 
+    <!-- Контакты -->
     <section id="contact" class="contact section">
         <div class="container">
             <div class="contact-content">
-                <h2 class="section-title fade-in" style="color: white;"><i class="bi bi-envelope"></i> Давайте создадим что-то крутое!</h2>
-                <p class="fade-in" style="font-size: 1.2rem; margin-bottom: 2rem;">
+                <h2 class="section-title fade-in">Давайте создадим что-то крутое!</h2>
+                <p class="fade-in" style="font-size: 1.2rem; margin-bottom: 2rem; color: var(--text-secondary);">
                     Готов сделать ваш сайт удобным, красивым и мощным!
                 </p>
                 <div class="contact-links fade-in">
@@ -227,21 +315,25 @@
         </div>
     </section>
 
-    <!-- Добавляем модальное окно -->
+    <!-- Модальные окна -->
     <div id="phoneModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal"><i class="bi bi-x-lg"></i></span>
-            <h2>Мамадалиев Истам</h2>
-            <p class="phone-number"><a class="link-number" href="tel:+998915295337">+998 91 529 53 37</a></p>
+            <button class="close-modal" onclick="closePhoneModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
+            <h2>Мой номер телефона</h2>
+            <a class="phone-number" href="tel:+998915295337">+998 91 529 53 37</a>
+            <p class="modal-hint">Нажмите на номер для звонка</p>
         </div>
     </div>
 
-    <!-- Добавляем модальное окно для email -->
     <div id="emailModal" class="modal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeEmailModal()"><i class="bi bi-x-lg"></i></span>
+            <button class="close-modal" onclick="closeEmailModal()">
+                <i class="bi bi-x-lg"></i>
+            </button>
             <h2>Мой Email</h2>
-            <a href="mailto:istam@example.com" class="email-link">mamadaliyevistam@gmail.com</a>
+            <a href="mailto:mamadaliyevistam@gmail.com" class="email-link">mamadaliyevistam@gmail.com</a>
             <p class="modal-hint">Нажмите на email для отправки сообщения</p>
         </div>
     </div>
