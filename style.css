@@ -51,7 +51,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: 
+    background:
         radial-gradient(circle at 20% 80%, rgba(110, 72, 170, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 80% 20%, rgba(0, 198, 255, 0.3) 0%, transparent 50%),
         radial-gradient(circle at 40% 40%, rgba(157, 80, 187, 0.2) 0%, transparent 50%);
@@ -66,7 +66,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
+    background-image:
         radial-gradient(1px 1px at 10% 10%, rgba(255, 255, 255, 0.9) 50%, transparent 100%),
         radial-gradient(1px 1px at 20% 20%, rgba(255, 255, 255, 0.8) 50%, transparent 100%),
         radial-gradient(1px 1px at 30% 30%, rgba(255, 255, 255, 0.7) 50%, transparent 100%),
@@ -81,8 +81,15 @@ body {
 }
 
 @keyframes twinkle {
-    0%, 100% { opacity: 0.5; }
-    50% { opacity: 1; }
+
+    0%,
+    100% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 @keyframes backgroundShift {
@@ -252,14 +259,27 @@ nav a.active {
 }
 
 .hero-avatar {
-    width: 160px;
-    height: 160px;
+    width: 180px;
+    height: 180px;
     border-radius: 50%;
     margin: 0 auto 2rem;
     position: relative;
     background: var(--accent-gradient);
-    padding: 4px;
+    padding: 5px;
     animation: heroFloat 6s ease-in-out infinite;
+    box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.1),
+        0 0 40px rgba(0, 198, 255, 0.3),
+        0 20px 60px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.hero-avatar:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 0 0 6px rgba(255, 255, 255, 0.15),
+        0 0 60px rgba(0, 198, 255, 0.5),
+        0 30px 80px rgba(0, 0, 0, 0.4);
 }
 
 .hero-avatar img {
@@ -267,6 +287,23 @@ nav a.active {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center;
+    /* Улучшение качества изображения */
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    image-rendering: optimize-quality;
+    /* Сглаживание краев */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Предотвращение размытия при анимации */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Улучшенное сглаживание */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Оптимизация для Retina дисплеев */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
 }
 
 @keyframes heroFloat {
@@ -938,12 +975,15 @@ nav a.active {
         transform: translateY(100vh) rotate(0deg);
         opacity: 0;
     }
+
     10% {
         opacity: 1;
     }
+
     90% {
         opacity: 1;
     }
+
     100% {
         transform: translateY(-100px) rotate(360deg);
         opacity: 0;
@@ -1051,21 +1091,21 @@ nav a.active {
     .timeline::before {
         left: 30px;
     }
-    
+
     .timeline-dot {
         left: 30px;
     }
-    
+
     .timeline-date {
         left: 70px;
         top: -30px;
     }
-    
+
     .timeline-content {
         width: calc(100% - 80px);
         left: 80px !important;
     }
-    
+
     .timeline-item:nth-child(even) .timeline-date {
         left: 70px;
         right: auto;
@@ -1219,7 +1259,7 @@ nav a.active {
     .mobile-menu-btn {
         display: block;
     }
-    
+
     .nav-container {
         position: fixed;
         top: 0;
@@ -1232,32 +1272,32 @@ nav a.active {
         transition: transform 0.3s ease;
         z-index: 1000;
     }
-    
+
     .nav-container.active {
         transform: translateX(0);
     }
-    
+
     .nav-container nav {
         height: 100%;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    
+
     .nav-container nav ul {
         flex-direction: column;
         gap: 2rem;
         padding: 0;
         margin: 0;
     }
-    
+
     .nav-container nav ul li a {
         font-size: 1.2rem;
         padding: 1rem 2rem;
         display: block;
         transition: all 0.3s ease;
     }
-    
+
     .nav-container nav ul li a:hover {
         background: rgba(255, 255, 255, 0.1);
         border-radius: 8px;
@@ -1286,7 +1326,7 @@ body.menu-open {
         padding: 0.5rem 1rem;
         z-index: 1000;
     }
-    
+
     .nav-container nav ul {
         display: flex;
         list-style: none;
@@ -1294,7 +1334,7 @@ body.menu-open {
         padding: 0;
         gap: 0.5rem;
     }
-    
+
     .nav-container nav ul li a {
         display: block;
         padding: 0.75rem 1.5rem;
@@ -1304,10 +1344,36 @@ body.menu-open {
         transition: all 0.3s ease;
         font-weight: 500;
     }
-    
+
     .nav-container nav ul li a:hover,
     .nav-container nav ul li a.active {
         background: rgba(255, 255, 255, 0.2);
         transform: translateY(-2px);
+    }
+}
+
+
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+    .hero-avatar img {
+        /* Дополнительная оптимизация для Retina экранов */
+        image-rendering: -webkit-optimize-contrast;
+    }
+}
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+    .hero-avatar {
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-avatar {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 1.5rem;
     }
 }
