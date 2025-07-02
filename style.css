@@ -259,8 +259,8 @@ nav a.active {
 }
 
 .hero-avatar {
-    width: 180px;
-    height: 180px;
+    width: 200px;
+    height: 200px;
     border-radius: 50%;
     margin: 0 auto 2rem;
     position: relative;
@@ -418,107 +418,121 @@ nav a.active {
 }
 
 /* Skills Section */
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
+.tech-stack-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
     margin-top: 4rem;
 }
 
-.skill-card {
+.tech-category {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 2.5rem;
-    text-align: center;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
 }
 
-.skill-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--accent-gradient);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
-}
-
-.skill-card:hover::before {
-    opacity: 0.1;
-}
-
-.skill-card::after {
-    content: '';
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    background: var(--accent-gradient);
-    border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0;
-    z-index: -2;
-    transition: opacity 0.4s ease;
-    transform: translate(-50%, -50%);
-    left: 50%;
-    top: 50%;
-}
-
-.skill-card:hover::after {
-    opacity: 0.2;
-}
-
-.skill-card:hover {
-    transform: translateY(-10px) scale(1.02);
+.tech-category:hover {
+    transform: translateY(-5px);
     box-shadow: var(--shadow-heavy);
-    border-color: rgba(0, 198, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.skill-icon {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-    background: var(--accent-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: block;
-    filter: drop-shadow(0 0 8px rgba(0, 198, 255, 0.5));
+.tech-category-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
-.skill-card h3 {
-    font-size: 1.4rem;
+.tech-category-title::before {
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tech-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.7rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 1rem;
-    position: relative;
-    display: inline-block;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    border: 1px solid transparent;
+    gap: 0.5rem;
+    cursor: default;
+    user-select: none;
 }
 
-.skill-card h3::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 2px;
-    background: var(--accent-gradient);
-    transition: width 0.3s ease;
+.tech-tag:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-.skill-card:hover h3::after {
-    width: 80%;
+.tech-tag span.bi {
+    font-size: 1.1rem;
+    line-height: 1;
 }
 
-.skill-card p {
-    color: var(--text-secondary);
-    line-height: 1.6;
+/* Specific Tag Styles */
+.tag-js { background-color: #f7df1e; color: #333; }
+.tag-python { background-color: #3776ab; color: #fff; }
+.tag-ts { background-color: #007acc; color: #fff; }
+.tag-html { background-color: #e34c26; color: #fff; }
+.tag-css { background-color: #264de4; color: #fff; }
+
+.tag-react { background-color: #61dafb; color: #333; }
+.tag-vue { background-color: #42b883; color: #fff; }
+.tag-next { background-color: #000000; color: #fff; }
+.tag-nuxt { background-color: #00c58e; color: #fff; }
+.tag-react-native { background-color: #61dafb; color: #333; }
+.tag-sass { background-color: #cc6699; color: #fff; }
+.tag-tailwind { background-color: #38b2ac; color: #fff; }
+
+.tag-django { background-color: #092e20; color: #fff; }
+.tag-node { background-color: #68a063; color: #fff; }
+.tag-fastapi { background-color: #009688; color: #fff; }
+.tag-postgres { background-color: #336791; color: #fff; }
+.tag-mongo { background-color: #47a248; color: #fff; }
+.tag-redis { background-color: #dc382d; color: #fff; }
+.tag-sqlite { background-color: #003b57; color: #fff; }
+
+.tag-git { background-color: #f05032; color: #fff; }
+.tag-github { background-color: #181717; color: #fff; }
+.tag-docker { background-color: #2496ed; color: #fff; }
+.tag-aws { background-color: #ff9900; color: #fff; }
+.tag-gcloud { background-color: #4285f4; color: #fff; }
+.tag-figma { background-color: #f24e1e; color: #fff; }
+.tag-vscode { background-color: #007acc; color: #fff; }
+
+
+@media (max-width: 768px) {
+    .tech-category {
+        padding: 1.5rem;
+    }
+
+    .tech-category-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .tech-tag {
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+    }
 }
 
 /* Features Section */

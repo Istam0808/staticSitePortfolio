@@ -33,8 +33,8 @@
                 <li><a href="#about" class="nav-link">О себе</a></li>
                 <li><a href="#skills" class="nav-link">Навыки</a></li>
                 <li><a href="#experience" class="nav-link">Опыт</a></li>
-                <li><a href="#projects" class="nav-link">Проекты</a></li>
                 <li><a href="#features" class="nav-link">Что получаете</a></li>
+                <li><a href="#projects" class="nav-link">Проекты</a></li>
                 <li><a href="#contact" class="nav-link">Контакты</a></li>
             </ul>
         </nav>
@@ -79,27 +79,56 @@
     <!-- Навыки -->
     <section id="skills" class="section">
         <div class="container">
-            <h2 class="section-title fade-in">Мой стек технологий</h2>
-            <div class="skills-grid">
-                <div class="skill-card fade-in">
-                    <div class="skill-icon">⚛️</div>
-                    <h3>React</h3>
-                    <p>Современные компоненты и хуки для интерактивных интерфейсов</p>
+            <h2 class="section-title fade-in"><i class="bi bi-tools"></i> Мой стек технологий</h2>
+            <div class="tech-stack-container">
+                <div class="tech-category fade-in">
+                    <h3 class="tech-category-title">💻 Языки</h3>
+                    <div class="tech-tags">
+                        <div class="tech-tag tag-js"><span class="bi bi-filetype-js"></span> JavaScript</div>
+                        <div class="tech-tag tag-python"><span class="bi bi-filetype-py"></span> Python</div>
+                        <div class="tech-tag tag-ts"><span class="bi bi-filetype-ts"></span> TypeScript</div>
+                        <div class="tech-tag tag-html"><span class="bi bi-filetype-html"></span> HTML5</div>
+                        <div class="tech-tag tag-css"><span class="bi bi-filetype-css"></span> CSS3</div>
+                    </div>
                 </div>
-                <div class="skill-card fade-in">
-                    <div class="skill-icon">🚀</div>
-                    <h3>Next.js</h3>
-                    <p>Полнофункциональные приложения с серверным рендерингом</p>
+
+                <div class="tech-category fade-in">
+                    <h3 class="tech-category-title">🎨 Фронтенд</h3>
+                    <div class="tech-tags">
+                        <div class="tech-tag tag-react"><span class="bi bi-stars"></span> React</div>
+                        <div class="tech-tag tag-vue"><span class="bi bi-vue"></span> Vue.js</div>
+                        <div class="tech-tag tag-next"><span class="bi bi-filetype-jsx"></span> Next.js</div>
+                        <div class="tech-tag tag-nuxt"><span class="bi bi-filetype-jsx"></span> Nuxt.js</div>
+                        <div class="tech-tag tag-react-native"><span class="bi bi-phone"></span> React Native</div>
+                        <div class="tech-tag tag-sass"><span class="bi bi-filetype-sass"></span> Sass</div>
+                        <div class="tech-tag tag-tailwind"><span class="bi bi-brush"></span> Tailwind CSS</div>
+                    </div>
                 </div>
-                <div class="skill-card fade-in">
-                    <div class="skill-icon">💻</div>
-                    <h3>JavaScript</h3>
-                    <p>ES6+, асинхронное программирование, современный JS</p>
+
+                <div class="tech-category fade-in">
+                    <h3 class="tech-category-title">⚙️ Бэкенд & Базы данных</h3>
+                    <div class="tech-tags">
+                        <div class="tech-tag tag-django"><span class="bi bi-server"></span> Django</div>
+                        <div class="tech-tag tag-node"><span class="bi bi-node"></span> Node.js</div>
+                        <div class="tech-tag tag-fastapi"><span class="bi bi-lightning-fill"></span> FastAPI</div>
+                        <div class="tech-tag tag-postgres"><span class="bi bi-database"></span> PostgreSQL</div>
+                        <div class="tech-tag tag-mongo"><span class="bi bi-database"></span> MongoDB</div>
+                        <div class="tech-tag tag-redis"><span class="bi bi-speedometer"></span> Redis</div>
+                        <div class="tech-tag tag-sqlite"><span class="bi bi-database-fill"></span> SQLite</div>
+                    </div>
                 </div>
-                <div class="skill-card fade-in">
-                    <div class="skill-icon">🎨</div>
-                    <h3>Sass/SCSS</h3>
-                    <p>Стильная и поддерживаемая архитектура стилей</p>
+
+                <div class="tech-category fade-in">
+                    <h3 class="tech-category-title">🛠️ Инструменты & Облако</h3>
+                    <div class="tech-tags">
+                        <div class="tech-tag tag-git"><span class="bi bi-git"></span> Git</div>
+                        <div class="tech-tag tag-github"><span class="bi bi-github"></span> GitHub</div>
+                        <div class="tech-tag tag-docker"><span class="bi bi-docker"></span> Docker</div>
+                        <div class="tech-tag tag-aws"><span class="bi bi-cloud"></span> Amazon AWS</div>
+                        <div class="tech-tag tag-gcloud"><span class="bi bi-google"></span> Google Cloud</div>
+                        <div class="tech-tag tag-figma"><span class="bi bi-bezier2"></span> Figma</div>
+                        <div class="tech-tag tag-vscode"><span class="bi bi-code-slash"></span> VS Code</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -108,7 +137,7 @@
     <!-- Таймлайн опыта (новая секция) -->
     <section id="experience" class="section">
         <div class="container">
-            <h2 class="section-title fade-in">Мой путь</h2>
+            <h2 class="section-title fade-in"><i class="bi bi-clock-history"></i> Мой путь</h2>
             <div class="timeline-container fade-in">
                 <div class="timeline">
                     <div class="timeline-item">
@@ -186,7 +215,7 @@
                     <div class="project-image">
                         <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" alt="Интернет-магазин">
                         <div class="project-overlay">
-                            <a href="https://cnc-project.onrender.com/" class="project-link">
+                            <a href="https://cnc-project.vercel.app/" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
                             </a>
                         </div>
@@ -208,9 +237,6 @@
                             <a href="#" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
                             </a>
-                            <a href="#" class="project-github">
-                                <i class="bi bi-github"></i>
-                            </a>
                         </div>
                     </div>
                     <div class="project-info">
@@ -229,9 +255,6 @@
                         <div class="project-overlay">
                             <a href="#" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
-                            </a>
-                            <a href="#" class="project-github">
-                                <i class="bi bi-github"></i>
                             </a>
                         </div>
                     </div>
