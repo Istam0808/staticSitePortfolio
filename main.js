@@ -240,7 +240,78 @@ window.addEventListener('scroll', handleScroll, { passive: true });
                 const depth = (index + 1) * 5;
                 element.style.transform = `translateX(${lastX * depth}px) translateY(${lastY * depth}px)`;
             });
+            
+            // Интерактивность с анимированными фигурами
+            document.querySelectorAll('.shape').forEach((shape, index) => {
+                const depth = (index + 1) * 3;
+                const parallaxX = lastX * depth;
+                const parallaxY = lastY * depth;
+                shape.style.transform += ` translate(${parallaxX}px, ${parallaxY}px)`;
+            });
+            
+            // Интерактивность с геометрическими элементами
+            document.querySelectorAll('.geo-element').forEach((geo, index) => {
+                const depth = (index + 1) * 2;
+                const parallaxX = lastX * depth;
+                const parallaxY = lastY * depth;
+                geo.style.transform += ` translate(${parallaxX}px, ${parallaxY}px)`;
+            });
+            
             pending = false;
+        });
+    });
+})();
+
+// Интерактивные эффекты для анимированных фигур
+(function setupInteractiveShapes() {
+    if (prefersReducedMotion || window.innerWidth < 768) return;
+    
+    // Эффект следования за курсором
+    document.addEventListener('mousemove', (e) => {
+        const shapes = document.querySelectorAll('.shape, .geo-element');
+        shapes.forEach((shape, index) => {
+            const rect = shape.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
+            );
+            
+            if (distance < 150) {
+                const intensity = Math.max(0, (150 - distance) / 150);
+                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+                const offsetX = Math.cos(angle) * intensity * 10;
+                const offsetY = Math.sin(angle) * intensity * 10;
+                
+                shape.style.transform += ` translate(${offsetX}px, ${offsetY}px) scale(${1 + intensity * 0.1})`;
+            }
+        });
+    });
+    
+    // Эффект пульсации при клике
+    document.addEventListener('click', (e) => {
+        const shapes = document.querySelectorAll('.shape, .geo-element');
+        shapes.forEach(shape => {
+            const rect = shape.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            
+            const distance = Math.sqrt(
+                Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
+            );
+            
+            if (distance < 200) {
+                shape.style.animation = 'none';
+                shape.offsetHeight; // Принудительный reflow
+                shape.style.animation = shape.style.animation || 'morphingCircle1 20s ease-in-out infinite';
+                
+                // Эффект волны
+                shape.style.filter = 'brightness(1.5) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))';
+                setTimeout(() => {
+                    shape.style.filter = '';
+                }, 500);
+            }
         });
     });
 })();

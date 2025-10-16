@@ -285,7 +285,8 @@ nav.scrolled {
 
 .hero-content {
     max-width: 800px;
-    z-index: 2;
+    position: relative;
+    z-index: 10;
 }
 
 .hero-avatar {
@@ -473,6 +474,8 @@ nav.scrolled {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
+    position: relative;
+    z-index: 2;
 }
 
 .section-title {
@@ -515,13 +518,33 @@ nav.scrolled {
     border-radius: 20px;
     padding: 2.5rem;
     box-shadow: var(--shadow-light);
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-category::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.tech-category:hover::before {
+    opacity: 1;
+    top: -25%;
+    right: -25%;
 }
 
 .tech-category:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-heavy);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3), 0 0 20px rgba(239, 68, 68, 0.2);
+    border-color: rgba(245, 158, 11, 0.5);
 }
 
 .tech-category-title {
@@ -611,26 +634,90 @@ nav.scrolled {
 
 @media (max-width: 768px) {
     .tech-category {
-        padding: 1.5rem;
+        padding: 1.2rem;
+        border-radius: 16px;
+        margin-bottom: 0.75rem;
     }
 
     .tech-category-title {
-        font-size: 1.5rem;
-        margin-bottom: 1.5rem;
+        font-size: 1.3rem;
+        margin-bottom: 1.2rem;
     }
 
     .tech-tag {
-        padding: 0.6rem 1rem;
-        font-size: 0.85rem;
+        padding: 0.5rem 0.85rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+    
+    .tech-tag span.bi {
+        font-size: 0.95rem;
+    }
+}
+
+/* Дополнительные улучшения для маленьких экранов */
+@media (max-width: 480px) {
+    /* Уменьшаем секции навыков */
+    .tech-category {
+        padding: 1rem;
+        border-radius: 14px;
+    }
+    
+    .tech-category-title {
+        font-size: 1.15rem;
+        margin-bottom: 1rem;
+    }
+    
+    .tech-tag {
+        padding: 0.45rem 0.7rem;
+        font-size: 0.75rem;
+    }
+    
+    /* Уменьшаем отступы в секциях */
+    .section {
+        padding: 4rem 0;
+    }
+    
+    .container {
+        padding: 0 1rem;
+    }
+    
+    /* Компактнее делаем заголовки */
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title::after {
+        width: 40px;
+        height: 2px;
+        bottom: -8px;
     }
 }
 
 /* Features Section */
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     margin-top: 4rem;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
 }
 
 /* Кнопка Вверх */
@@ -661,9 +748,9 @@ nav.scrolled {
 }
 
 .feature-card {
-    background: linear-gradient(135deg, rgba(240, 147, 251, 0.08) 0%, rgba(245, 87, 108, 0.08) 100%);
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.08) 0%, rgba(16, 185, 129, 0.08) 100%);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(240, 147, 251, 0.25);
+    border: 1px solid rgba(251, 191, 36, 0.25);
     border-radius: 20px;
     padding: 2.5rem;
     transition: all 0.4s ease;
@@ -679,7 +766,7 @@ nav.scrolled {
     right: -50%;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(165, 180, 252, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
     transition: all 0.4s ease;
 }
 
@@ -690,8 +777,8 @@ nav.scrolled {
 
 .feature-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(240, 147, 251, 0.3), 0 0 20px rgba(245, 87, 108, 0.2);
-    border-color: rgba(240, 147, 251, 0.5);
+    box-shadow: 0 20px 40px rgba(251, 191, 36, 0.3), 0 0 20px rgba(16, 185, 129, 0.2);
+    border-color: rgba(251, 191, 36, 0.5);
 }
 
 .feature-icon {
@@ -718,9 +805,26 @@ nav.scrolled {
 /* Projects Section */
 .projects-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2.5rem;
     margin-top: 4rem;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+    }
 }
 
 .project-card {
@@ -735,9 +839,29 @@ nav.scrolled {
 /* Оптимизация 3D-tilt */
 .project-card, .skill-card { will-change: transform; transform-style: preserve-3d; }
 
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(220, 38, 127, 0.1) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    opacity: 0;
+    z-index: 1;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    top: -25%;
+    left: -25%;
+}
+
 .project-card:hover {
-    transform: translateY(-10px);
-    box-shadow: var(--shadow-heavy);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(220, 38, 127, 0.3), 0 0 25px rgba(34, 197, 94, 0.2);
+    border-color: rgba(220, 38, 127, 0.5);
 }
 
 .project-image {
@@ -843,6 +967,33 @@ nav.scrolled {
     padding: 3rem;
     text-align: center;
     margin-bottom: 2rem;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.testimonial-card:hover::before {
+    opacity: 1;
+    top: -25%;
+    right: -25%;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+    border-color: rgba(139, 92, 246, 0.5);
 }
 
 .testimonial-content p {
@@ -912,7 +1063,7 @@ nav.scrolled {
     border-radius: 50px;
     color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     position: relative;
     overflow: hidden;
 }
@@ -924,9 +1075,27 @@ nav.scrolled {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: var(--accent-gradient);
-    transition: left 0.3s ease;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.8) 0%, rgba(245, 158, 11, 0.8) 100%);
+    transition: left 0.4s ease;
     z-index: -1;
+}
+
+.contact-link::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.contact-link:hover::after {
+    opacity: 1;
+    top: -25%;
+    right: -25%;
 }
 
 .contact-link:hover::before {
@@ -934,8 +1103,9 @@ nav.scrolled {
 }
 
 .contact-link:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-light);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 15px 30px rgba(16, 185, 129, 0.3), 0 0 15px rgba(245, 158, 11, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
 }
 
 /* Modal */
@@ -1099,10 +1269,156 @@ nav.scrolled {
     z-index: -1;
     overflow: hidden;
 }
+/* === ИНТЕРАКТИВНЫЕ ЭЛЕМЕНТЫ === */
+/* Интерактивные эффекты для анимированных фигур */
+.shape:hover {
+    transform: scale(1.1) !important;
+    filter: brightness(1.2) !important;
+    transition: all 0.3s ease !important;
+}
+
+.geo-element:hover {
+    transform: scale(1.2) rotate(45deg) !important;
+    filter: brightness(1.3) !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Интерактивные волны при наведении на секции */
+.section:hover .shape {
+    animation-duration: 10s !important;
+}
+
+.section:hover .geo-element {
+    animation-duration: 8s !important;
+}
+
+/* Пульсирующие эффекты для активных секций */
+.section.active .shape {
+    filter: brightness(1.4) drop-shadow(0 0 20px rgba(255, 255, 255, 0.3)) !important;
+}
+
+.section.active .geo-element {
+    filter: brightness(1.5) drop-shadow(0 0 15px rgba(255, 255, 255, 0.4)) !important;
+}
+
+/* Эффект параллакса для анимированных элементов */
+@media (min-width: 1024px) {
+    .shape {
+        transition: transform 0.1s ease-out;
+    }
+    
+    .geo-element {
+        transition: transform 0.1s ease-out;
+    }
+}
+
+/* === ОПТИМИЗАЦИЯ ПРОИЗВОДИТЕЛЬНОСТИ === */
+/* GPU ускорение для всех анимированных элементов */
+.shape,
+.geo-element,
+.animated-shapes,
+.floating-geometry {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+}
+
+/* Оптимизация для мобильных устройств */
+@media (max-width: 768px) {
+    .shape {
+        opacity: 0.7;
+        transform: scale(0.8);
+    }
+    
+    .geo-element {
+        opacity: 0.6;
+        transform: scale(0.7);
+    }
+    
+    /* Упрощаем анимации на мобильных */
+    .shape,
+    .geo-element {
+        animation-duration: 15s !important;
+        animation-timing-function: linear !important;
+    }
+}
+
+/* Мобильная адаптация анимированных фигур */
+@media (max-width: 768px) {
+    /* Уменьшаем размеры всех фигур для планшетов */
+    .shape {
+        opacity: 0.6;
+        transform: scale(0.7);
+    }
+    
+    .geo-element {
+        opacity: 0.5;
+        transform: scale(0.6);
+    }
+}
+
+@media (max-width: 480px) {
+    /* Еще больше уменьшаем фигуры для телефонов, но не скрываем */
+    .animated-shapes {
+        opacity: 0.7;
+    }
+    
+    .shape {
+        opacity: 0.5;
+        transform: scale(0.5) !important;
+    }
+    
+    .geo-element {
+        opacity: 0.4;
+        transform: scale(0.4) !important;
+    }
+    
+    /* Упрощаем анимации на мобильных */
+    .shape,
+    .geo-element {
+        animation-duration: 18s !important;
+        animation-timing-function: linear !important;
+    }
+}
+
 /* Уменьшение движения по системному предпочтению */
 @media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
-  .particles-container, .floating-elements { display: none !important; }
+  * { 
+    animation: none !important; 
+    transition: none !important; 
+  }
+  .particles-container, .floating-elements { 
+    display: none !important; 
+  }
+  /* Отключаем анимации фонов секций */
+  #home::before,
+  #about::before,
+  #skills::before,
+  #competencies::before,
+  #experience::before,
+  #features::before,
+  #projects::before,
+  #testimonials::before,
+  #contact::before {
+    animation: none !important;
+  }
+  /* Отключаем анимированные фигуры */
+  .animated-shapes,
+  .floating-geometry {
+    display: none !important;
+  }
+  /* Упрощаем hover эффекты */
+  .specialization-item:hover,
+  .tech-category:hover,
+  .competency-card:hover,
+  .experience-card:hover,
+  .feature-card:hover,
+  .project-card:hover,
+  .testimonial-card:hover,
+  .contact-link:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-light) !important;
+  }
 }
 
 .particle {
@@ -1193,13 +1509,33 @@ nav.scrolled {
     border-radius: 16px;
     padding: 2rem;
     text-align: center;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.specialization-item::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+    transition: all 0.4s ease;
+    opacity: 0;
+}
+
+.specialization-item:hover::before {
+    opacity: 1;
+    top: -25%;
+    left: -25%;
 }
 
 .specialization-item:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-heavy);
-    border-color: rgba(240, 147, 251, 0.4);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3), 0 0 20px rgba(59, 130, 246, 0.2);
+    border-color: rgba(16, 185, 129, 0.5);
 }
 
 .specialization-icon {
@@ -1442,7 +1778,7 @@ nav.scrolled {
     right: -50%;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(165, 180, 252, 0.12) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%);
     transition: all 0.4s ease;
 }
 
@@ -1453,8 +1789,8 @@ nav.scrolled {
 
 .experience-card:hover {
     transform: translateY(-8px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(240, 147, 251, 0.3), 0 0 20px rgba(245, 87, 108, 0.2);
-    border-color: rgba(240, 147, 251, 0.5);
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.3), 0 0 20px rgba(14, 165, 233, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
 }
 
 .experience-header {
@@ -2131,15 +2467,1221 @@ nav ul::after, nav ul::before,
     padding: 6rem 0; /* сохраняем вертикальный ритм */
 }
 
-/* Индивидуальные индиго-оттенки для секций */
-#home { background: var(--dark-gradient); }
-#about { background: linear-gradient(135deg, rgba(24, 31, 66, 0.9), rgba(32, 41, 84, 0.9)); }
-#skills { background: linear-gradient(135deg, rgba(26, 34, 72, 0.9), rgba(39, 49, 101, 0.9)); }
-#experience { background: linear-gradient(135deg, rgba(20, 27, 60, 0.9), rgba(31, 40, 88, 0.9)); }
-#features { background: linear-gradient(135deg, rgba(28, 36, 78, 0.9), rgba(46, 58, 118, 0.9)); }
-#projects { background: linear-gradient(135deg, rgba(22, 29, 66, 0.9), rgba(38, 48, 104, 0.9)); }
-#testimonials { background: linear-gradient(135deg, rgba(18, 24, 56, 0.9), rgba(33, 43, 94, 0.9)); }
-#contact { background: linear-gradient(135deg, rgba(16, 22, 50, 0.9), rgba(29, 38, 84, 0.9)); }
+/* Уникальные цветовые схемы для каждой секции с анимированными фонами */
+#home { 
+    background: var(--dark-gradient); 
+    position: relative;
+    overflow: hidden;
+}
+
+#home::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(240, 147, 251, 0.6) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(245, 87, 108, 0.5) 0%, transparent 50%),
+        radial-gradient(circle at 40% 60%, rgba(102, 126, 234, 0.4) 0%, transparent 50%);
+    animation: heroBackgroundShift 20s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#about { 
+    background: linear-gradient(135deg, rgba(24, 31, 66, 0.95), rgba(32, 41, 84, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#about::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 30% 30%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.2) 0%, transparent 50%);
+    animation: aboutBackgroundShift 25s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#skills { 
+    background: linear-gradient(135deg, rgba(26, 34, 72, 0.95), rgba(39, 49, 101, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#skills::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 25% 25%, rgba(245, 158, 11, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(239, 68, 68, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 60% 40%, rgba(34, 197, 94, 0.2) 0%, transparent 50%);
+    animation: skillsBackgroundShift 22s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#competencies {
+    background: linear-gradient(135deg, rgba(30, 41, 88, 0.95), rgba(45, 58, 118, 0.95));
+    position: relative;
+    overflow: hidden;
+}
+
+#competencies::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(240, 147, 251, 0.35) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(245, 87, 108, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 60% 60%, rgba(118, 75, 162, 0.2) 0%, transparent 50%);
+    animation: competenciesBackgroundShift 25s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#experience { 
+    background: linear-gradient(135deg, rgba(20, 27, 60, 0.95), rgba(31, 40, 88, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#experience::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 40% 20%, rgba(168, 85, 247, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 60% 80%, rgba(14, 165, 233, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(236, 72, 153, 0.2) 0%, transparent 50%);
+    animation: experienceBackgroundShift 24s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#features { 
+    background: linear-gradient(135deg, rgba(28, 36, 78, 0.95), rgba(46, 58, 118, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 15% 15%, rgba(251, 191, 36, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 50%);
+    animation: featuresBackgroundShift 26s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#projects { 
+    background: linear-gradient(135deg, rgba(22, 29, 66, 0.95), rgba(38, 48, 104, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#projects::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 35% 35%, rgba(220, 38, 127, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 65% 65%, rgba(34, 197, 94, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(251, 146, 60, 0.2) 0%, transparent 50%);
+    animation: projectsBackgroundShift 23s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#testimonials { 
+    background: linear-gradient(135deg, rgba(18, 24, 56, 0.95), rgba(33, 43, 94, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#testimonials::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 25% 75%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 75% 25%, rgba(59, 130, 246, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.2) 0%, transparent 50%);
+    animation: testimonialsBackgroundShift 27s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+#contact { 
+    background: linear-gradient(135deg, rgba(16, 22, 50, 0.95), rgba(29, 38, 84, 0.95)); 
+    position: relative;
+    overflow: hidden;
+}
+
+#contact::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        radial-gradient(circle at 30% 70%, rgba(16, 185, 129, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 70% 30%, rgba(245, 158, 11, 0.25) 0%, transparent 50%),
+        radial-gradient(circle at 45% 55%, rgba(239, 68, 68, 0.2) 0%, transparent 50%);
+    animation: contactBackgroundShift 28s ease-in-out infinite;
+    z-index: -1;
+    will-change: transform;
+}
+
+/* Анимации для фонов секций */
+@keyframes heroBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateX(-10px) translateY(-15px) scale(1.02) rotate(1deg); }
+    50% { transform: translateX(15px) translateY(10px) scale(0.98) rotate(-1deg); }
+    75% { transform: translateX(-8px) translateY(12px) scale(1.01) rotate(0.5deg); }
+}
+
+@keyframes aboutBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    33% { transform: translateX(-12px) translateY(-8px) scale(1.03) rotate(1.5deg); }
+    66% { transform: translateX(8px) translateY(-12px) scale(0.97) rotate(-1.5deg); }
+}
+
+@keyframes skillsBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateX(-8px) translateY(-10px) scale(1.02) rotate(0.8deg); }
+    50% { transform: translateX(12px) translateY(8px) scale(0.98) rotate(-0.8deg); }
+    75% { transform: translateX(-6px) translateY(10px) scale(1.01) rotate(0.4deg); }
+}
+
+@keyframes competenciesBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateX(-5px) translateY(-10px) scale(1.02) rotate(1deg); }
+    50% { transform: translateX(10px) translateY(5px) scale(0.98) rotate(-1deg); }
+    75% { transform: translateX(-8px) translateY(8px) scale(1.01) rotate(0.5deg); }
+}
+
+@keyframes experienceBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    30% { transform: translateX(-10px) translateY(-12px) scale(1.03) rotate(1.2deg); }
+    60% { transform: translateX(12px) translateY(-8px) scale(0.97) rotate(-1.2deg); }
+}
+
+@keyframes featuresBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    20% { transform: translateX(-8px) translateY(-6px) scale(1.02) rotate(0.6deg); }
+    40% { transform: translateX(6px) translateY(-10px) scale(0.98) rotate(-0.6deg); }
+    60% { transform: translateX(10px) translateY(6px) scale(1.01) rotate(0.3deg); }
+    80% { transform: translateX(-6px) translateY(8px) scale(0.99) rotate(-0.3deg); }
+}
+
+@keyframes projectsBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateX(-9px) translateY(-11px) scale(1.02) rotate(1.1deg); }
+    50% { transform: translateX(11px) translateY(9px) scale(0.98) rotate(-1.1deg); }
+    75% { transform: translateX(-7px) translateY(13px) scale(1.01) rotate(0.7deg); }
+}
+
+@keyframes testimonialsBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    33% { transform: translateX(-11px) translateY(-7px) scale(1.03) rotate(1.3deg); }
+    66% { transform: translateX(7px) translateY(-11px) scale(0.97) rotate(-1.3deg); }
+}
+
+@keyframes contactBackgroundShift {
+    0%, 100% { transform: translateX(0) translateY(0) scale(1) rotate(0deg); }
+    25% { transform: translateX(-7px) translateY(-9px) scale(1.02) rotate(0.9deg); }
+    50% { transform: translateX(9px) translateY(7px) scale(0.98) rotate(-0.9deg); }
+    75% { transform: translateX(-5px) translateY(11px) scale(1.01) rotate(0.5deg); }
+}
+
+/* === ПРЕМИУМ АНИМИРОВАННЫЕ ФИГУРЫ === */
+.animated-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Базовые анимированные фигуры */
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    will-change: transform;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+/* Фигуры для главной секции */
+#home .shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: -10%;
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.7), rgba(245, 87, 108, 0.6));
+    animation: morphingCircle1 20s ease-in-out infinite;
+    box-shadow: 0 0 60px rgba(240, 147, 251, 0.5);
+    border: 3px solid rgba(240, 147, 251, 0.4);
+}
+
+#home .shape-2 {
+    width: 200px;
+    height: 200px;
+    top: 60%;
+    right: -5%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.6), rgba(118, 75, 162, 0.5));
+    animation: morphingCircle2 25s ease-in-out infinite reverse;
+    box-shadow: 0 0 50px rgba(102, 126, 234, 0.4);
+    border: 3px solid rgba(102, 126, 234, 0.3);
+}
+
+#home .shape-3 {
+    width: 150px;
+    height: 150px;
+    top: 30%;
+    right: 20%;
+    background: linear-gradient(135deg, rgba(245, 87, 108, 0.5), rgba(240, 147, 251, 0.4));
+    animation: morphingCircle3 18s ease-in-out infinite;
+    box-shadow: 0 0 40px rgba(245, 87, 108, 0.4);
+    border: 2px solid rgba(245, 87, 108, 0.3);
+}
+
+#home .shape-4 {
+    width: 250px;
+    height: 250px;
+    bottom: 10%;
+    left: 10%;
+    background: linear-gradient(135deg, rgba(118, 75, 162, 0.6), rgba(102, 126, 234, 0.5));
+    animation: morphingCircle4 22s ease-in-out infinite reverse;
+    box-shadow: 0 0 50px rgba(102, 126, 234, 0.4);
+    border: 3px solid rgba(118, 75, 162, 0.3);
+}
+
+/* Тестовая яркая фигура для проверки */
+#home .shape-test {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, rgba(255, 0, 0, 0.8), rgba(0, 255, 0, 0.8));
+    animation: morphingCircle1 3s ease-in-out infinite;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.6);
+    z-index: 10;
+}
+
+/* Простая анимация пульсации для тестирования */
+@keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.7; }
+}
+
+/* Фигуры для секции "О себе" */
+#about .shape-1 {
+    width: 280px;
+    height: 280px;
+    top: 15%;
+    left: -8%;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.5), rgba(59, 130, 246, 0.4));
+    animation: morphingHexagon1 24s ease-in-out infinite;
+    border-radius: 30%;
+    box-shadow: 0 0 50px rgba(16, 185, 129, 0.4);
+    border: 3px solid rgba(16, 185, 129, 0.3);
+}
+
+#about .shape-2 {
+    width: 180px;
+    height: 180px;
+    bottom: 20%;
+    right: -5%;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(16, 185, 129, 0.4));
+    animation: morphingHexagon2 28s ease-in-out infinite reverse;
+    border-radius: 40%;
+    box-shadow: 0 0 45px rgba(139, 92, 246, 0.4);
+    border: 2px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Фигуры для секции навыков */
+#skills .shape-1 {
+    width: 320px;
+    height: 320px;
+    top: 5%;
+    left: -12%;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.6), rgba(239, 68, 68, 0.5));
+    animation: morphingTriangle1 26s ease-in-out infinite;
+    border-radius: 20%;
+    box-shadow: 0 0 55px rgba(245, 158, 11, 0.4);
+    border: 3px solid rgba(245, 158, 11, 0.3);
+}
+
+#skills .shape-2 {
+    width: 220px;
+    height: 220px;
+    top: 50%;
+    right: -8%;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(245, 158, 11, 0.4));
+    animation: morphingTriangle2 30s ease-in-out infinite reverse;
+    border-radius: 35%;
+    box-shadow: 0 0 48px rgba(34, 197, 94, 0.4);
+    border: 3px solid rgba(34, 197, 94, 0.3);
+}
+
+#skills .shape-3 {
+    width: 160px;
+    height: 160px;
+    bottom: 15%;
+    left: 15%;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(34, 197, 94, 0.4));
+    animation: morphingTriangle3 22s ease-in-out infinite;
+    border-radius: 45%;
+    box-shadow: 0 0 42px rgba(239, 68, 68, 0.4);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Фигуры для секции компетенций */
+#competencies .shape-1 {
+    width: 350px;
+    height: 350px;
+    top: 8%;
+    left: -15%;
+    background: linear-gradient(135deg, rgba(240, 147, 251, 0.6), rgba(245, 87, 108, 0.5));
+    animation: morphingStar1 32s ease-in-out infinite;
+    border-radius: 25%;
+    box-shadow: 0 0 60px rgba(240, 147, 251, 0.5);
+    border: 3px solid rgba(240, 147, 251, 0.4);
+}
+
+#competencies .shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 10%;
+    right: -10%;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.4));
+    animation: morphingStar2 28s ease-in-out infinite reverse;
+    border-radius: 30%;
+    box-shadow: 0 0 48px rgba(102, 126, 234, 0.4);
+    border: 2px solid rgba(102, 126, 234, 0.3);
+}
+
+/* Фигуры для секции опыта */
+#experience .shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 12%;
+    left: -10%;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.6), rgba(14, 165, 233, 0.5));
+    animation: morphingDiamond1 24s ease-in-out infinite;
+    border-radius: 20%;
+    box-shadow: 0 0 52px rgba(168, 85, 247, 0.4);
+    border: 3px solid rgba(168, 85, 247, 0.3);
+}
+
+#experience .shape-2 {
+    width: 240px;
+    height: 240px;
+    top: 45%;
+    right: -8%;
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.5), rgba(168, 85, 247, 0.4));
+    animation: morphingDiamond2 26s ease-in-out infinite reverse;
+    border-radius: 35%;
+    box-shadow: 0 0 50px rgba(236, 72, 153, 0.4);
+    border: 3px solid rgba(236, 72, 153, 0.3);
+}
+
+#experience .shape-3 {
+    width: 180px;
+    height: 180px;
+    bottom: 20%;
+    left: 20%;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.5), rgba(236, 72, 153, 0.4));
+    animation: morphingDiamond3 20s ease-in-out infinite;
+    border-radius: 40%;
+    box-shadow: 0 0 45px rgba(14, 165, 233, 0.4);
+    border: 2px solid rgba(14, 165, 233, 0.3);
+}
+
+/* Фигуры для секции "Что получаете" */
+#features .shape-1 {
+    width: 280px;
+    height: 280px;
+    top: 10%;
+    left: -8%;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.6), rgba(16, 185, 129, 0.5));
+    animation: morphingPentagon1 26s ease-in-out infinite;
+    border-radius: 30%;
+    box-shadow: 0 0 50px rgba(251, 191, 36, 0.4);
+    border: 3px solid rgba(251, 191, 36, 0.3);
+}
+
+#features .shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 15%;
+    right: -5%;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.5), rgba(251, 191, 36, 0.4));
+    animation: morphingPentagon2 24s ease-in-out infinite reverse;
+    border-radius: 35%;
+    box-shadow: 0 0 48px rgba(99, 102, 241, 0.4);
+    border: 2px solid rgba(99, 102, 241, 0.3);
+}
+
+/* Фигуры для секции проектов */
+#projects .shape-1 {
+    width: 320px;
+    height: 320px;
+    top: 5%;
+    left: -12%;
+    background: linear-gradient(135deg, rgba(220, 38, 127, 0.6), rgba(34, 197, 94, 0.5));
+    animation: morphingOctagon1 28s ease-in-out infinite;
+    border-radius: 25%;
+    box-shadow: 0 0 55px rgba(220, 38, 127, 0.4);
+    border: 3px solid rgba(220, 38, 127, 0.3);
+}
+
+#projects .shape-2 {
+    width: 220px;
+    height: 220px;
+    top: 50%;
+    right: -8%;
+    background: linear-gradient(135deg, rgba(251, 146, 60, 0.5), rgba(220, 38, 127, 0.4));
+    animation: morphingOctagon2 30s ease-in-out infinite reverse;
+    border-radius: 30%;
+    box-shadow: 0 0 50px rgba(251, 146, 60, 0.4);
+    border: 3px solid rgba(251, 146, 60, 0.3);
+}
+
+#projects .shape-3 {
+    width: 160px;
+    height: 160px;
+    bottom: 18%;
+    left: 18%;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(251, 146, 60, 0.4));
+    animation: morphingOctagon3 22s ease-in-out infinite;
+    border-radius: 45%;
+    box-shadow: 0 0 42px rgba(34, 197, 94, 0.4);
+    border: 2px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Фигуры для секции отзывов */
+#testimonials .shape-1 {
+    width: 300px;
+    height: 300px;
+    top: 15%;
+    left: -10%;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(59, 130, 246, 0.5));
+    animation: morphingHeart1 26s ease-in-out infinite;
+    border-radius: 50% 20% 50% 20%;
+    box-shadow: 0 0 52px rgba(139, 92, 246, 0.4);
+    border: 3px solid rgba(139, 92, 246, 0.3);
+}
+
+/* Фигуры для секции контактов */
+#contact .shape-1 {
+    width: 280px;
+    height: 280px;
+    top: 12%;
+    left: -8%;
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.6), rgba(245, 158, 11, 0.5));
+    animation: morphingWave1 24s ease-in-out infinite;
+    border-radius: 40% 60% 40% 60%;
+    box-shadow: 0 0 50px rgba(16, 185, 129, 0.4);
+    border: 3px solid rgba(16, 185, 129, 0.3);
+}
+
+#contact .shape-2 {
+    width: 200px;
+    height: 200px;
+    bottom: 20%;
+    right: -5%;
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.5), rgba(16, 185, 129, 0.4));
+    animation: morphingWave2 28s ease-in-out infinite reverse;
+    border-radius: 60% 40% 60% 40%;
+    box-shadow: 0 0 48px rgba(239, 68, 68, 0.4);
+    border: 2px solid rgba(239, 68, 68, 0.3);
+}
+
+/* Плавающие геометрические элементы */
+.floating-geometry {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.geo-element {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    will-change: transform;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+/* Геометрические элементы для разных секций */
+#home .geo-1 {
+    width: 60px;
+    height: 60px;
+    top: 20%;
+    right: 30%;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    animation: floatingTriangle 15s ease-in-out infinite;
+}
+
+#home .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 70%;
+    left: 25%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    animation: floatingHexagon 18s ease-in-out infinite reverse;
+}
+
+#home .geo-3 {
+    width: 50px;
+    height: 50px;
+    top: 45%;
+    left: 60%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: floatingDiamond 12s ease-in-out infinite;
+}
+
+#about .geo-1 {
+    width: 45px;
+    height: 45px;
+    top: 25%;
+    right: 35%;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    animation: floatingOctagon 16s ease-in-out infinite;
+}
+
+#about .geo-2 {
+    width: 35px;
+    height: 35px;
+    top: 65%;
+    left: 30%;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatingStar 14s ease-in-out infinite reverse;
+}
+
+#skills .geo-1 {
+    width: 55px;
+    height: 55px;
+    top: 15%;
+    right: 25%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+    animation: floatingSquare 13s ease-in-out infinite;
+}
+
+#skills .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 60%;
+    left: 35%;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    animation: floatingPentagon 17s ease-in-out infinite reverse;
+}
+
+#skills .geo-3 {
+    width: 30px;
+    height: 30px;
+    top: 80%;
+    right: 40%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: floatingDiamond 11s ease-in-out infinite;
+}
+
+#competencies .geo-1 {
+    width: 50px;
+    height: 50px;
+    top: 30%;
+    right: 40%;
+    clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+    animation: floatingRoundedSquare 19s ease-in-out infinite;
+}
+
+#competencies .geo-2 {
+    width: 35px;
+    height: 35px;
+    top: 70%;
+    left: 40%;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    animation: floatingPentagon 15s ease-in-out infinite reverse;
+}
+
+#experience .geo-1 {
+    width: 45px;
+    height: 45px;
+    top: 20%;
+    right: 30%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: floatingDiamond 16s ease-in-out infinite;
+}
+
+#experience .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 60%;
+    left: 30%;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    animation: floatingOctagon 14s ease-in-out infinite reverse;
+}
+
+#experience .geo-3 {
+    width: 35px;
+    height: 35px;
+    top: 80%;
+    right: 35%;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatingStar 18s ease-in-out infinite;
+}
+
+#features .geo-1 {
+    width: 50px;
+    height: 50px;
+    top: 25%;
+    right: 35%;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    animation: floatingPentagon 17s ease-in-out infinite;
+}
+
+#features .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 70%;
+    left: 35%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    animation: floatingHexagon 13s ease-in-out infinite reverse;
+}
+
+#projects .geo-1 {
+    width: 55px;
+    height: 55px;
+    top: 20%;
+    right: 25%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0% 75%, 0% 25%);
+    animation: floatingSquare 15s ease-in-out infinite;
+}
+
+#projects .geo-2 {
+    width: 45px;
+    height: 45px;
+    top: 55%;
+    left: 30%;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    animation: floatingOctagon 19s ease-in-out infinite reverse;
+}
+
+#projects .geo-3 {
+    width: 35px;
+    height: 35px;
+    top: 75%;
+    right: 30%;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    animation: floatingStar 12s ease-in-out infinite;
+}
+
+#testimonials .geo-1 {
+    width: 45px;
+    height: 45px;
+    top: 35%;
+    right: 40%;
+    clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+    animation: floatingPentagon 16s ease-in-out infinite;
+}
+
+#testimonials .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 65%;
+    left: 35%;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: floatingDiamond 14s ease-in-out infinite reverse;
+}
+
+#contact .geo-1 {
+    width: 50px;
+    height: 50px;
+    top: 30%;
+    right: 35%;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    animation: floatingHexagon 17s ease-in-out infinite;
+}
+
+#contact .geo-2 {
+    width: 40px;
+    height: 40px;
+    top: 65%;
+    left: 40%;
+    clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+    animation: floatingOctagon 15s ease-in-out infinite reverse;
+}
+
+/* === АНИМАЦИИ МОРФИНГА ФИГУР === */
+
+/* Морфинг кругов для главной секции */
+@keyframes morphingCircle1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 50%;
+    }
+    25% { 
+        transform: translateX(20px) translateY(-15px) rotate(90deg) scale(1.1);
+        border-radius: 30% 70% 30% 70%;
+    }
+    50% { 
+        transform: translateX(-10px) translateY(20px) rotate(180deg) scale(0.9);
+        border-radius: 70% 30% 70% 30%;
+    }
+    75% { 
+        transform: translateX(15px) translateY(-10px) rotate(270deg) scale(1.05);
+        border-radius: 40% 60% 40% 60%;
+    }
+}
+
+@keyframes morphingCircle2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 50%;
+    }
+    33% { 
+        transform: translateX(-25px) translateY(15px) rotate(120deg) scale(1.15);
+        border-radius: 60% 40% 60% 40%;
+    }
+    66% { 
+        transform: translateX(20px) translateY(-20px) rotate(240deg) scale(0.85);
+        border-radius: 40% 60% 40% 60%;
+    }
+}
+
+@keyframes morphingCircle3 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 50%;
+    }
+    50% { 
+        transform: translateX(-15px) translateY(10px) rotate(180deg) scale(1.2);
+        border-radius: 20% 80% 20% 80%;
+    }
+}
+
+@keyframes morphingCircle4 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 50%;
+    }
+    40% { 
+        transform: translateX(30px) translateY(-25px) rotate(144deg) scale(1.1);
+        border-radius: 70% 30% 70% 30%;
+    }
+    80% { 
+        transform: translateX(-20px) translateY(30px) rotate(288deg) scale(0.9);
+        border-radius: 30% 70% 30% 70%;
+    }
+}
+
+/* Морфинг шестиугольников для секции "О себе" */
+@keyframes morphingHexagon1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 30%;
+    }
+    25% { 
+        transform: translateX(-20px) translateY(15px) rotate(60deg) scale(1.1);
+        border-radius: 50%;
+    }
+    50% { 
+        transform: translateX(25px) translateY(-20px) rotate(120deg) scale(0.9);
+        border-radius: 20%;
+    }
+    75% { 
+        transform: translateX(-15px) translateY(-25px) rotate(180deg) scale(1.05);
+        border-radius: 40%;
+    }
+}
+
+@keyframes morphingHexagon2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 40%;
+    }
+    50% { 
+        transform: translateX(20px) translateY(-15px) rotate(180deg) scale(1.2);
+        border-radius: 60%;
+    }
+}
+
+/* Морфинг треугольников для секции навыков */
+@keyframes morphingTriangle1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 20%;
+    }
+    33% { 
+        transform: translateX(-30px) translateY(20px) rotate(120deg) scale(1.15);
+        border-radius: 50%;
+    }
+    66% { 
+        transform: translateX(25px) translateY(-25px) rotate(240deg) scale(0.85);
+        border-radius: 10%;
+    }
+}
+
+@keyframes morphingTriangle2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 35%;
+    }
+    50% { 
+        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(1.1);
+        border-radius: 60%;
+    }
+}
+
+@keyframes morphingTriangle3 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 45%;
+    }
+    50% { 
+        transform: translateX(-15px) translateY(15px) rotate(180deg) scale(1.2);
+        border-radius: 20%;
+    }
+}
+
+/* Морфинг звезд для секции компетенций */
+@keyframes morphingStar1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 25%;
+    }
+    25% { 
+        transform: translateX(-25px) translateY(20px) rotate(72deg) scale(1.1);
+        border-radius: 50%;
+    }
+    50% { 
+        transform: translateX(30px) translateY(-25px) rotate(144deg) scale(0.9);
+        border-radius: 15%;
+    }
+    75% { 
+        transform: translateX(-20px) translateY(-30px) rotate(216deg) scale(1.05);
+        border-radius: 35%;
+    }
+}
+
+@keyframes morphingStar2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 30%;
+    }
+    50% { 
+        transform: translateX(25px) translateY(-20px) rotate(180deg) scale(1.2);
+        border-radius: 60%;
+    }
+}
+
+/* Морфинг ромбов для секции опыта */
+@keyframes morphingDiamond1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 20%;
+    }
+    33% { 
+        transform: translateX(-25px) translateY(15px) rotate(90deg) scale(1.1);
+        border-radius: 50%;
+    }
+    66% { 
+        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(0.9);
+        border-radius: 10%;
+    }
+}
+
+@keyframes morphingDiamond2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 35%;
+    }
+    50% { 
+        transform: translateX(-20px) translateY(-25px) rotate(180deg) scale(1.15);
+        border-radius: 60%;
+    }
+}
+
+@keyframes morphingDiamond3 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 40%;
+    }
+    50% { 
+        transform: translateX(15px) translateY(-15px) rotate(180deg) scale(1.2);
+        border-radius: 20%;
+    }
+}
+
+/* Морфинг пятиугольников для секции "Что получаете" */
+@keyframes morphingPentagon1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 30%;
+    }
+    25% { 
+        transform: translateX(-20px) translateY(20px) rotate(72deg) scale(1.1);
+        border-radius: 50%;
+    }
+    50% { 
+        transform: translateX(25px) translateY(-20px) rotate(144deg) scale(0.9);
+        border-radius: 20%;
+    }
+    75% { 
+        transform: translateX(-15px) translateY(-25px) rotate(216deg) scale(1.05);
+        border-radius: 40%;
+    }
+}
+
+@keyframes morphingPentagon2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 35%;
+    }
+    50% { 
+        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(1.2);
+        border-radius: 60%;
+    }
+}
+
+/* Морфинг восьмиугольников для секции проектов */
+@keyframes morphingOctagon1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 25%;
+    }
+    33% { 
+        transform: translateX(-30px) translateY(25px) rotate(45deg) scale(1.1);
+        border-radius: 50%;
+    }
+    66% { 
+        transform: translateX(25px) translateY(-30px) rotate(135deg) scale(0.9);
+        border-radius: 15%;
+    }
+}
+
+@keyframes morphingOctagon2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 30%;
+    }
+    50% { 
+        transform: translateX(-25px) translateY(-30px) rotate(180deg) scale(1.15);
+        border-radius: 60%;
+    }
+}
+
+@keyframes morphingOctagon3 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 45%;
+    }
+    50% { 
+        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(1.2);
+        border-radius: 25%;
+    }
+}
+
+/* Морфинг сердца для секции отзывов */
+@keyframes morphingHeart1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 50% 20% 50% 20%;
+    }
+    25% { 
+        transform: translateX(-20px) translateY(15px) rotate(30deg) scale(1.1);
+        border-radius: 60% 40% 60% 40%;
+    }
+    50% { 
+        transform: translateX(25px) translateY(-20px) rotate(-30deg) scale(0.9);
+        border-radius: 40% 60% 40% 60%;
+    }
+    75% { 
+        transform: translateX(-15px) translateY(-25px) rotate(60deg) scale(1.05);
+        border-radius: 30% 70% 30% 70%;
+    }
+}
+
+/* Морфинг волн для секции контактов */
+@keyframes morphingWave1 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 40% 60% 40% 60%;
+    }
+    25% { 
+        transform: translateX(-20px) translateY(20px) rotate(45deg) scale(1.1);
+        border-radius: 60% 40% 60% 40%;
+    }
+    50% { 
+        transform: translateX(25px) translateY(-25px) rotate(-45deg) scale(0.9);
+        border-radius: 30% 70% 30% 70%;
+    }
+    75% { 
+        transform: translateX(-15px) translateY(-20px) rotate(90deg) scale(1.05);
+        border-radius: 50% 50% 50% 50%;
+    }
+}
+
+@keyframes morphingWave2 {
+    0%, 100% { 
+        transform: translateX(0) translateY(0) rotate(0deg) scale(1);
+        border-radius: 60% 40% 60% 40%;
+    }
+    50% { 
+        transform: translateX(20px) translateY(-25px) rotate(180deg) scale(1.2);
+        border-radius: 40% 60% 40% 60%;
+    }
+}
+
+/* === АНИМАЦИИ ПЛАВАНИЯ ГЕОМЕТРИЧЕСКИХ ЭЛЕМЕНТОВ === */
+@keyframes floatingTriangle {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    25% { 
+        transform: translateY(-20px) rotate(90deg) scale(1.1);
+    }
+    50% { 
+        transform: translateY(-10px) rotate(180deg) scale(0.9);
+    }
+    75% { 
+        transform: translateY(-25px) rotate(270deg) scale(1.05);
+    }
+}
+
+@keyframes floatingHexagon {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    33% { 
+        transform: translateY(-15px) rotate(120deg) scale(1.1);
+    }
+    66% { 
+        transform: translateY(-25px) rotate(240deg) scale(0.9);
+    }
+}
+
+@keyframes floatingDiamond {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    50% { 
+        transform: translateY(-20px) rotate(180deg) scale(1.2);
+    }
+}
+
+@keyframes floatingOctagon {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    25% { 
+        transform: translateY(-18px) rotate(45deg) scale(1.1);
+    }
+    50% { 
+        transform: translateY(-12px) rotate(90deg) scale(0.9);
+    }
+    75% { 
+        transform: translateY(-22px) rotate(135deg) scale(1.05);
+    }
+}
+
+@keyframes floatingStar {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    33% { 
+        transform: translateY(-16px) rotate(72deg) scale(1.15);
+    }
+    66% { 
+        transform: translateY(-24px) rotate(144deg) scale(0.85);
+    }
+}
+
+@keyframes floatingSquare {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    25% { 
+        transform: translateY(-14px) rotate(45deg) scale(1.1);
+    }
+    50% { 
+        transform: translateY(-8px) rotate(90deg) scale(0.9);
+    }
+    75% { 
+        transform: translateY(-20px) rotate(135deg) scale(1.05);
+    }
+}
+
+@keyframes floatingPentagon {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    33% { 
+        transform: translateY(-17px) rotate(72deg) scale(1.1);
+    }
+    66% { 
+        transform: translateY(-23px) rotate(144deg) scale(0.9);
+    }
+}
+
+@keyframes floatingRoundedSquare {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg) scale(1);
+    }
+    50% { 
+        transform: translateY(-19px) rotate(180deg) scale(1.2);
+    }
+}
 
 /* Смягчим контент-контейнер при 100vh */
 .section > .container { width: 100%; }
@@ -2153,7 +3695,7 @@ nav ul::after, nav ul::before,
   .hero h2 { font-size: clamp(1rem, 4.5vw, 1.25rem); }
   .hero-description { font-size: 0.95rem; margin-bottom: 2rem; max-width: 90%; }
   .hero-avatar { width: 120px; height: 120px; margin-bottom: 1rem; }
-  .btn { padding: 0.75rem 1.25rem; font-size: 0.9rem; }
+  .btn { padding: 0.75rem 1.25rem; font-size: 0.9rem; border-radius: 40px; }
   .tech-category { padding: 1.25rem; border-radius: 16px; }
   .tech-tag { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
   .features-grid { gap: 1rem; }
@@ -2162,8 +3704,203 @@ nav ul::after, nav ul::before,
   .project-image { height: 160px; }
   .project-info { padding: 1.25rem; }
   .timeline-container { margin-top: 2rem; }
-  .testimonial-card { padding: 2rem; }
-  .contact-links { gap: 1rem; }
+  .testimonial-card { padding: 2rem; border-radius: 18px; }
+  .contact-links { gap: 1rem; flex-direction: column; align-items: stretch; }
+  .contact-link { padding: 1rem 1.5rem; justify-content: center; }
+}
+
+/* Дополнительная оптимизация для очень маленьких экранов */
+@media (max-width: 480px) {
+  .section { padding: 3rem 0; min-height: auto; }
+  .hero { padding: 5rem 1rem 2rem; min-height: 85vh; }
+  .hero h1 { font-size: clamp(1.5rem, 7vw, 2rem); line-height: 1.3; }
+  .hero h2 { font-size: clamp(0.9rem, 4vw, 1.1rem); }
+  .hero-description { font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .hero-avatar { width: 100px; height: 100px; }
+  .hero-buttons { gap: 1rem; width: 100%; }
+  .btn { padding: 0.65rem 1.1rem; font-size: 0.85rem; width: 100%; }
+  
+  /* Уменьшаем карточки Features */
+  .feature-card { 
+    padding: 1.2rem; 
+    border-radius: 14px;
+    margin-bottom: 0;
+  }
+  .feature-icon { 
+    font-size: 2rem; 
+    margin-bottom: 0.75rem;
+    filter: drop-shadow(0 0 8px rgba(240, 147, 251, 0.25));
+  }
+  .feature-card h3 { 
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+    line-height: 1.4;
+  }
+  .feature-card p { 
+    font-size: 0.85rem; 
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  /* Оптимизация hover эффектов */
+  .feature-card:active {
+    transform: scale(0.98);
+  }
+  
+  /* Проекты */
+  .project-card { 
+    border-radius: 14px;
+    margin-bottom: 0;
+    overflow: hidden;
+  }
+  .project-image { 
+    height: 140px; 
+    border-radius: 14px 14px 0 0;
+  }
+  .project-info { 
+    padding: 1rem;
+  }
+  .project-info h3 { 
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .project-info p { 
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+  .project-tags {
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .project-tags span {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 10px;
+    white-space: nowrap;
+  }
+  
+  /* Оптимизация overlay для мобильных */
+  .project-overlay {
+    opacity: 0;
+  }
+  .project-card:active .project-overlay {
+    opacity: 1;
+  }
+  
+  .project-link {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+  
+  /* Отзывы */
+  .testimonial-card { padding: 1.5rem; border-radius: 16px; }
+  .testimonial-content p { font-size: 0.9rem; }
+  .testimonial-avatar { width: 50px; height: 50px; font-size: 1.3rem; }
+  
+  /* Контакты */
+  .contact-link { padding: 0.9rem 1.3rem; font-size: 0.9rem; }
+  
+  /* Модальные окна */
+  .modal-content { padding: 2rem; width: 92%; }
+  .phone-number, .email-link { font-size: 1.1rem; word-break: break-all; }
+  
+  /* Специализация на маленьких экранах */
+  .specialization {
+    margin-bottom: 2rem;
+  }
+  
+  .specialization h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Кнопка "Вверх" */
+  .back-to-top {
+    width: 40px;
+    height: 40px;
+    right: 15px;
+    bottom: 15px;
+  }
+  
+  .back-to-top i {
+    font-size: 1.1rem;
+  }
+  
+  /* Навигация */
+  .scroll-progress {
+    height: 2px;
+  }
+}
+
+/* Дополнительная оптимизация для очень маленьких экранов (< 360px) */
+@media (max-width: 360px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+  
+  .section {
+    padding: 2.5rem 0;
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+  
+  /* Features */
+  .features-grid {
+    gap: 0.5rem;
+  }
+  
+  .feature-card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .feature-icon {
+    font-size: 1.75rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 0.95rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.8rem;
+  }
+  
+  /* Projects */
+  .projects-grid {
+    gap: 0.5rem;
+  }
+  
+  .project-card {
+    border-radius: 12px;
+  }
+  
+  .project-image {
+    height: 120px;
+  }
+  
+  .project-info {
+    padding: 0.85rem;
+  }
+  
+  .project-info h3 {
+    font-size: 0.95rem;
+  }
+  
+  .project-info p {
+    font-size: 0.8rem;
+  }
+  
+  .project-tags span {
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+  }
 }
 
 /* Убираем scroll-snap для плавной работы новой системы скролла */
@@ -2178,89 +3915,164 @@ html, body {
 @media (max-width: 768px) {
   /* About Section */
   .professional-summary, .work-philosophy {
-    padding: 1.5rem;
-    margin-bottom: 2rem;
+    padding: 1.2rem;
+    margin-bottom: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .professional-summary h3,
+  .work-philosophy h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .professional-summary p {
+    font-size: 0.95rem;
+    line-height: 1.6;
   }
   
   .specialization-grid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.75rem;
   }
   
   .specialization-item {
-    padding: 1.5rem;
+    padding: 1rem;
+    border-radius: 12px;
+  }
+  
+  .specialization-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .specialization-item h4 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .specialization-item p {
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
   
   .philosophy-content {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+  }
+  
+  .philosophy-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .philosophy-item li {
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
   }
   
   /* Competencies Section */
   .competencies-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
   }
   
   .competency-card {
-    padding: 1.5rem;
+    padding: 1.2rem;
+    border-radius: 16px;
   }
   
   .competency-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
   }
   
   .competency-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .competency-card p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .competency-highlight {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 16px;
   }
   
   .approach-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1rem;
+  }
+  
+  .approach-item h4 {
+    font-size: 1.1rem;
+  }
+  
+  .approach-item li {
+    font-size: 0.85rem;
   }
   
   /* Experience Section */
   .experience-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-top: 2rem;
+    gap: 0.75rem;
+    margin-top: 1.5rem;
   }
   
   .experience-card {
-    padding: 1.5rem;
+    padding: 1.2rem;
+    border-radius: 16px;
   }
   
   .experience-header {
-    flex-direction: column;
-    text-align: center;
-    gap: 1rem;
+    flex-direction: row;
+    text-align: left;
+    gap: 0.75rem;
+    align-items: flex-start;
   }
   
   .experience-icon {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    flex-shrink: 0;
   }
   
-  /* Features Section */
-  #features .features-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
-  #features .feature-card { padding: 1rem; border-radius: 12px; }
-  #features .feature-icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
-  #features .feature-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
-  #features .feature-card p { font-size: 0.9rem; }
+  .experience-info h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .experience-role {
+    font-size: 0.85rem;
+  }
+  
+  .experience-period {
+    font-size: 0.8rem;
+  }
+  
+  .experience-content p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .tech-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 12px;
+  }
+  
+  /* Features Section - дополнительная оптимизация для планшетов */
   #features .container { padding: 0 1rem; }
 }
 
 @media (max-width: 768px) {
-  /* Projects - мобильные размеры поменьше */
-  #projects .projects-grid { grid-template-columns: 1fr; gap: 0.75rem; }
-  #projects .project-image { height: 140px; }
-  #projects .project-info { padding: 1rem; }
-  #projects .project-info h3 { font-size: 1rem; }
-  #projects .project-info p { font-size: 0.9rem; margin-bottom: 0.75rem; }
-  #projects .project-tags span { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 12px; }
-
-  /* Testimonials - мобильные размеры поменьше */
+  /* Testimonials - мобильные размеры */
   #testimonials .testimonial-card { padding: 1.5rem; border-radius: 16px; }
   #testimonials .testimonial-content p { font-size: 1rem; margin-bottom: 1rem; line-height: 1.5; }
   #testimonials .testimonial-avatar { width: 44px; height: 44px; font-size: 1.2rem; }
