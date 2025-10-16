@@ -58,45 +58,167 @@ document.querySelectorAll('.fade-in').forEach(el => {
     observer.observe(el);
 });
 
-// Smooth scrolling для навигационных ссылок (scrollIntoView + CSS scroll-margin-top)
-document.querySelectorAll('nav a[href^="#"], .hero-buttons a[href^="#"]').forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        if (targetId === '#home') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            return;
+// Новая система скролла
+let isScrolling = false;
+let currentSection = 'home';
+
+// Функция для плавной прокрутки к секции
+function smoothScrollTo(targetId) {
+    if (isScrolling) return;
+    
+    isScrolling = true;
+    currentSection = targetId.replace('#', '');
+    
+    console.log('Scrolling to:', targetId);
+    
+    // Закрываем мобильное меню если оно открыто
+    if (navContainer && navContainer.classList.contains('active')) {
+        navContainer.classList.remove('active');
+        mobileMenuBtn.classList.remove('active');
+        document.body.classList.remove('menu-open');
+    }
+    
+    if (targetId === '#home') {
+        // Прокрутка наверх
+        const startPosition = window.pageYOffset;
+        const targetPosition = 0;
+        const distance = targetPosition - startPosition;
+        const duration = 800;
+        let start = null;
+        
+        function animation(currentTime) {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const progress = Math.min(timeElapsed / duration, 1);
+            
+            // Easing function для плавности
+            const ease = progress < 0.5 
+                ? 4 * progress * progress * progress 
+                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+            
+            window.scrollTo(0, startPosition + distance * ease);
+            
+            if (timeElapsed < duration) {
+                requestAnimationFrame(animation);
+            } else {
+                isScrolling = false;
+                updateActiveNav('home');
+            }
         }
+        
+        requestAnimationFrame(animation);
+    } else {
+        // Прокрутка к конкретной секции
         const target = document.querySelector(targetId);
         if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const startPosition = window.pageYOffset;
+            const targetPosition = target.offsetTop;
+            const distance = targetPosition - startPosition;
+            const duration = 800;
+            let start = null;
+            
+            function animation(currentTime) {
+                if (start === null) start = currentTime;
+                const timeElapsed = currentTime - start;
+                const progress = Math.min(timeElapsed / duration, 1);
+                
+                // Easing function для плавности
+                const ease = progress < 0.5 
+                    ? 4 * progress * progress * progress 
+                    : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+                
+                window.scrollTo(0, startPosition + distance * ease);
+                
+                if (timeElapsed < duration) {
+                    requestAnimationFrame(animation);
+                } else {
+                    isScrolling = false;
+                    updateActiveNav(targetId.replace('#', ''));
+                }
+            }
+            
+            requestAnimationFrame(animation);
+        } else {
+            isScrolling = false;
+        }
+    }
+}
+
+// Функция для обновления активной навигации
+function updateActiveNav(sectionId) {
+    document.querySelectorAll('nav a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${sectionId}`) {
+            link.classList.add('active');
         }
     });
-});
+}
+
+// Инициализация навигации
+function initNavigation() {
+    document.querySelectorAll('nav a[href^="#"], .hero-buttons a[href^="#"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href');
+            smoothScrollTo(targetId);
+        });
+    });
+}
 
 // Кнопка Вверх
 if (backToTopBtn) {
     backToTopBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        smoothScrollTo('#home');
     });
 }
 
-// Активная навигация (scrollspy) через IntersectionObserver
-const sections = document.querySelectorAll('section[id]');
-const navLinks = document.querySelectorAll('nav a[href^="#"]');
-const scrollSpyObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        const id = entry.target.getAttribute('id');
-        if (entry.isIntersecting) {
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
-            });
+// Новая система scrollspy
+let scrollTimeout;
+let isUserScrolling = false;
+
+// Функция для определения активной секции при скролле
+function updateActiveSectionOnScroll() {
+    if (isScrolling) return; // Не обновляем во время программного скролла
+    
+    const sections = document.querySelectorAll('section[id]');
+    const scrollPosition = window.pageYOffset + window.innerHeight / 2;
+    
+    let activeSection = 'home';
+    
+    sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
+        
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+            activeSection = section.getAttribute('id');
         }
     });
-}, { root: null, threshold: 0.6 });
+    
+    // Проверяем, находимся ли мы в самом верху страницы
+    if (window.pageYOffset < 100) {
+        activeSection = 'home';
+    }
+    
+    if (activeSection !== currentSection) {
+        currentSection = activeSection;
+        updateActiveNav(activeSection);
+    }
+}
 
-sections.forEach(section => scrollSpyObserver.observe(section));
+// Обработчик скролла с дебаунсингом
+function handleScroll() {
+    isUserScrolling = true;
+    
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        updateActiveSectionOnScroll();
+        isUserScrolling = false;
+    }, 100);
+}
+
+// Добавляем обработчик скролла
+window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Эффект параллакса при движении мыши (rAF + отключение на тач/мобильных/при reduce motion)
 (function setupParallax(){
@@ -183,6 +305,12 @@ function closeEmailModal() {
 
 // Закрытие модальных окон при клике на крестик
 document.addEventListener('DOMContentLoaded', () => {
+    // Инициализируем навигацию сразу после загрузки DOM
+    initNavigation();
+    
+    // Устанавливаем начальную активную секцию
+    updateActiveNav('home');
+    
     // Обработчики для кнопок закрытия
     document.querySelectorAll('.close-modal').forEach(button => {
         button.addEventListener('click', (e) => {
@@ -347,12 +475,71 @@ function typeWriter(element, text, speed = 100, delay = 1000) {
     }, delay);
 }
 
+// Новый эффект - пульсирующие карточки
+function addPulseEffect() {
+    document.querySelectorAll('.feature-card, .project-card').forEach((card, index) => {
+        card.style.animationDelay = `${index * 0.2}s`;
+        card.classList.add('pulse-animation');
+    });
+}
+
+// Добавляем CSS для пульсирующей анимации
+const pulseCSS = `
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.pulse-animation {
+    animation: pulse 3s ease-in-out infinite;
+}
+
+.pulse-animation:hover {
+    animation-play-state: paused;
+}
+`;
+
+// Вставляем CSS в head
+const style = document.createElement('style');
+style.textContent = pulseCSS;
+document.head.appendChild(style);
+
 // Применяем эффект печатающегося текста к заголовку
 window.addEventListener('load', () => {
     const heroTitle = document.querySelector('.hero h1');
     if (heroTitle) {
         const originalText = heroTitle.textContent;
         typeWriter(heroTitle, originalText, 100, 500);
+    }
+    
+    // Инициализируем навигацию
+    initNavigation();
+    
+    // Дополнительная инициализация навигации для надежности
+    setTimeout(() => {
+        initNavigation();
+    }, 100);
+    
+    // Добавляем пульсирующий эффект к карточкам
+    setTimeout(() => {
+        addPulseEffect();
+    }, 2000);
+    
+    // Добавляем интерактивный эффект для аватара
+    const avatar = document.querySelector('.hero-avatar');
+    if (avatar) {
+        avatar.addEventListener('click', () => {
+            avatar.style.animation = 'none';
+            avatar.offsetHeight; // Принудительный reflow
+            avatar.style.animation = 'heroFloat 6s ease-in-out infinite';
+            
+            // Добавляем эффект "взрыва" частиц
+            for (let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    createParticle();
+                }, i * 100);
+            }
+        });
     }
 });
 
@@ -370,15 +557,26 @@ function createParticle() {
     const particle = document.createElement('div');
     particle.classList.add('particle');
 
-    const size = Math.random() * 5 + 2;
+    const size = Math.random() * 6 + 2;
     const left = Math.random() * 100;
-    const duration = Math.random() * 3 + 3;
+    const duration = Math.random() * 4 + 3;
     const delay = Math.random() * 2;
+    
+    // Новые цвета для частиц
+    const colors = [
+        'rgba(240, 147, 251, 0.6)',
+        'rgba(245, 87, 108, 0.6)', 
+        'rgba(102, 126, 234, 0.6)',
+        'rgba(118, 75, 162, 0.6)'
+    ];
+    const color = colors[Math.floor(Math.random() * colors.length)];
 
     particle.style.cssText = `
         width: ${size}px;
         height: ${size}px;
         left: ${left}%;
+        background: ${color};
+        box-shadow: 0 0 10px ${color};
         animation: particleFloat ${duration}s linear infinite;
         animation-delay: ${delay}s;
     `;
@@ -461,5 +659,11 @@ function updateScrollProgress() {
 }
 
 window.addEventListener('scroll', updateScrollProgress);
+
+// Простая функция для прокрутки наверх (резервный вариант)
+function scrollToTop() {
+    console.log('scrollToTop function called');
+    smoothScrollTo('#home');
+}
 
 console.log('Portfolio script loaded successfully!');
