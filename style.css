@@ -1,17 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-    --primary-gradient: linear-gradient(135deg, #6e48aa 0%, #9d50bb 100%);
-    --accent-gradient: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
-    --dark-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-    --neon-glow: 0 0 10px rgba(0, 198, 255, 0.8), 0 0 20px rgba(0, 198, 255, 0.4);
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --primary-gradient: linear-gradient(135deg, #4338ca 0%, #6366f1 60%, #a5b4fc 100%);
+    --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c6ee6 100%);
+    --dark-gradient: linear-gradient(135deg, #0b1023 0%, #151b3a 50%, #0f1431 100%);
+    --neon-glow: 0 0 10px rgba(99, 102, 241, 0.65), 0 0 24px rgba(99, 102, 241, 0.35);
+    --glass-bg: rgba(18, 22, 45, 0.5);
+    --glass-border: rgba(165, 180, 252, 0.22);
     --text-primary: #ffffff;
-    --text-secondary: rgba(255, 255, 255, 0.7);
-    --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
-    --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
-    --card-hover: rgba(0, 198, 255, 0.1);
+    --text-secondary: rgba(226, 232, 240, 0.72);
+    --shadow-light: 0 8px 32px rgba(8, 12, 28, 0.25);
+    --shadow-heavy: 0 24px 70px rgba(8, 12, 28, 0.45);
+    --card-hover: rgba(99, 102, 241, 0.12);
 }
 
 * {
@@ -20,15 +20,12 @@
     box-sizing: border-box;
 }
 
-html {
-    scroll-behavior: smooth;
-}
+
 
 body {
     font-family: 'Poppins', sans-serif;
     background: var(--dark-gradient);
     color: var(--text-primary);
-    overflow-x: hidden;
     line-height: 1.6;
 }
 
@@ -52,9 +49,9 @@ body {
     width: 100%;
     height: 100%;
     background:
-        radial-gradient(circle at 20% 80%, rgba(110, 72, 170, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(0, 198, 255, 0.3) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(157, 80, 187, 0.2) 0%, transparent 50%);
+        radial-gradient(circle at 20% 80%, rgba(79, 70, 229, 0.30) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(99, 102, 241, 0.26) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(165, 180, 252, 0.18) 0%, transparent 50%);
     animation: backgroundShift 20s ease-in-out infinite;
 }
 
@@ -119,7 +116,7 @@ body {
     left: 0;
     width: 0%;
     height: 3px;
-    background: linear-gradient(90deg, #00c6ff, #0072ff, #6e48aa);
+    background: linear-gradient(90deg, #4f46e5, #6366f1, #a5b4fc);
     z-index: 1000;
     transition: width 0.1s ease;
     box-shadow: var(--neon-glow);
@@ -139,9 +136,20 @@ nav {
     background: var(--glass-bg);
     backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
-    border-radius: 50px;
+    border-radius: 14px;
     padding: 0.8rem 2rem;
     box-shadow: var(--shadow-light);
+    position: relative;
+}
+
+nav::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(165,180,252,0.18), rgba(99,102,241,0.06) 40%, rgba(0,0,0,0) 100%);
+    mix-blend-mode: screen;
 }
 
 nav ul {
@@ -156,19 +164,28 @@ nav a {
     text-decoration: none;
     font-weight: 500;
     font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 0.9rem;
     border-radius: 25px;
-    transition: all 0.3s ease;
+    transition: color .25s ease, background .25s ease, transform .25s ease, box-shadow .25s ease;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
+    word-break: keep-all;
 }
 
-
-nav a:hover::before {
-    left: 0;
+/* Индикация активной ссылки: бегущая линия */
+nav a::before {
+    content: '';
+    position: absolute;
+    left: -100%;
+    bottom: 0.4rem;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(165,180,252,0.6) 30%, rgba(99,102,241,0.9) 70%, transparent 100%);
+    transition: left 0.35s ease;
 }
 
-
+nav a:hover::before,
 nav a.active::before {
     left: 0;
 }
@@ -176,7 +193,16 @@ nav a.active::before {
 nav a:hover,
 nav a.active {
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(99, 102, 241, 0.12);
+    box-shadow: 0 8px 24px rgba(99,102,241,0.22), 0 0 0 1px var(--glass-border) inset;
+    transform: translateY(-1px);
+}
+
+/* Навбар при прокрутке */
+nav.scrolled {
+    background: rgba(15, 18, 36, 0.7);
+    border-color: rgba(165, 180, 252, 0.25);
+    box-shadow: 0 10px 28px rgba(17,24,39,0.35), 0 0 0 1px rgba(165,180,252,0.08) inset;
 }
 
 
@@ -330,7 +356,7 @@ nav a.active {
     font-size: clamp(2.5rem, 6vw, 4rem);
     font-weight: 800;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f093fb 50%, #f5576c 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 55%, #6366f1 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -374,12 +400,12 @@ nav a.active {
 .btn-primary {
     background: var(--accent-gradient);
     color: white;
-    box-shadow: 0 8px 25px rgba(240, 147, 251, 0.3);
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.28);
 }
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.38);
 }
 
 .btn-secondary {
@@ -398,7 +424,11 @@ nav a.active {
 .section {
     padding: 6rem 0;
     position: relative;
+    scroll-margin-top: 80px;
 }
+
+/* Отменяем отступ при якорном скролле для корректного снэпа */
+section[id] { scroll-margin-top: 0; }
 
 .container {
     max-width: 1200px;
@@ -411,7 +441,7 @@ nav a.active {
     font-size: clamp(2rem, 4vw, 3rem);
     font-weight: 700;
     margin-bottom: 3rem;
-    background: linear-gradient(135deg, #ffffff 0%, #f093fb 100%);
+    background: linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -543,10 +573,37 @@ nav a.active {
     margin-top: 4rem;
 }
 
+/* Кнопка Вверх */
+.back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity .3s ease, transform .3s ease;
+    z-index: 1200;
+}
+.back-to-top.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
 .feature-card {
-    background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+    background: linear-gradient(135deg, rgba(165, 180, 252, 0.10) 0%, rgba(99, 102, 241, 0.10) 100%);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(240, 147, 251, 0.2);
+    border: 1px solid rgba(165, 180, 252, 0.22);
     border-radius: 20px;
     padding: 2.5rem;
     transition: all 0.4s ease;
@@ -561,7 +618,7 @@ nav a.active {
     right: -50%;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, rgba(240, 147, 251, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(165, 180, 252, 0.12) 0%, transparent 70%);
     transition: all 0.4s ease;
 }
 
@@ -572,14 +629,14 @@ nav a.active {
 
 .feature-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(240, 147, 251, 0.2);
-    border-color: rgba(240, 147, 251, 0.4);
+    box-shadow: 0 20px 40px rgba(99, 102, 241, 0.22);
+    border-color: rgba(165, 180, 252, 0.36);
 }
 
 .feature-icon {
     font-size: 2.5rem;
     margin-bottom: 1.5rem;
-    color: #f093fb;
+    color: #818cf8;
 }
 
 .feature-card h3 {
@@ -610,6 +667,8 @@ nav a.active {
     transition: all 0.4s ease;
     position: relative;
 }
+/* Оптимизация 3D-tilt */
+.project-card, .skill-card { will-change: transform; transform-style: preserve-3d; }
 
 .project-card:hover {
     transform: translateY(-10px);
@@ -696,8 +755,8 @@ nav a.active {
 }
 
 .project-tags span {
-    background: rgba(240, 147, 251, 0.2);
-    color: #f093fb;
+    background: rgba(165, 180, 252, 0.22);
+    color: #a5b4fc;
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
     font-size: 0.8rem;
@@ -841,7 +900,7 @@ nav a.active {
     border: 1px solid var(--glass-border);
     border-radius: 20px;
     padding: 3rem;
-    max-width: 400px;
+    max-width: 560px;
     width: 90%;
     text-align: center;
     position: relative;
@@ -887,11 +946,12 @@ nav a.active {
     display: block;
     margin: 1rem 0;
     transition: all 0.3s ease;
+    white-space: nowrap;
 }
 
 .phone-number:hover,
 .email-link:hover {
-    color: #f093fb;
+    color: #a5b4fc;
     transform: scale(1.05);
 }
 
@@ -914,7 +974,7 @@ nav a.active {
 
 .floating-element {
     position: absolute;
-    background: rgba(240, 147, 251, 0.1);
+    background: rgba(99, 102, 241, 0.12);
     border-radius: 50%;
     animation: float 8s infinite ease-in-out;
 }
@@ -974,11 +1034,16 @@ nav a.active {
     z-index: -1;
     overflow: hidden;
 }
+/* Уменьшение движения по системному предпочтению */
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+  .particles-container, .floating-elements { display: none !important; }
+}
 
 .particle {
     position: absolute;
     bottom: -10px;
-    background: rgba(0, 198, 255, 0.6);
+    background: rgba(99, 102, 241, 0.5);
     border-radius: 50%;
     pointer-events: none;
     z-index: -1;
@@ -1074,7 +1139,7 @@ nav a.active {
 .timeline-content:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-heavy);
-    border-color: rgba(0, 198, 255, 0.3);
+    border-color: rgba(165, 180, 252, 0.32);
 }
 
 .timeline-item:nth-child(odd) .timeline-content {
@@ -1171,6 +1236,7 @@ nav a.active {
 
     .hero {
         padding: 8rem 1rem 4rem;
+        scroll-margin-top: 0;
     }
 
     .hero-buttons {
@@ -1328,21 +1394,36 @@ body.menu-open {
 @media (min-width: 769px) {
     .nav-container {
         position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: auto;
-        height: auto;
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50px;
-        padding: 0.5rem 1rem;
+        top: 50%;
+        left: 24px;
+        transform: translateY(-50%);
+        width: 220px;
+        background: rgba(165, 180, 252, 0.06);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(165, 180, 252, 0.18);
+        border-radius: 16px;
+        padding: 0.75rem;
         z-index: 1000;
+        box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+        position: fixed;
+        overflow: hidden;
+    }
+
+    /* Декоративный акцент слева у контейнера */
+    .nav-container::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 3px;
+        background: var(--accent-gradient);
+        opacity: 0.7;
     }
 
     .nav-container nav ul {
         display: flex;
+        flex-direction: column;
         list-style: none;
         margin: 0;
         padding: 0;
@@ -1351,19 +1432,220 @@ body.menu-open {
 
     .nav-container nav ul li a {
         display: block;
-        padding: 0.75rem 1.5rem;
+        padding: 0.65rem 0.9rem 0.65rem 1.25rem;
         color: #fff;
         text-decoration: none;
-        border-radius: 25px;
+        border-radius: 10px;
         transition: all 0.3s ease;
         font-weight: 500;
+        text-align: left;
+        position: relative;
+        background: transparent;
     }
 
+    /* Вертикальный индикатор активного пункта */
+    .nav-container nav ul li a::before {
+        content: '';
+        position: absolute;
+        left: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 4px;
+        height: 60%;
+        background: var(--accent-gradient);
+        border-radius: 4px;
+        box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+
+    /* Актив/hover стили: фон-стекло, лёгкий сдвиг, свечение индикатора */
     .nav-container nav ul li a:hover,
     .nav-container nav ul li a.active {
-        background: rgba(255, 255, 255, 0.2);
-        transform: translateY(-2px);
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        transform: translateX(2px);
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
+
+    .nav-container nav ul li a:hover::before,
+    .nav-container nav ul li a.active::before {
+        opacity: 1;
+    }
+
+    /* Тонкие разделители между пунктами */
+    .nav-container nav ul li + li {
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        margin-top: 0.25rem;
+        padding-top: 0.25rem;
+    }
+
+    /* Доступность: чёткий фокус */
+    .nav-container nav ul li a:focus-visible {
+        outline: 2px solid rgba(0, 198, 255, 0.7);
+        outline-offset: 2px;
+    }
+}
+
+/* === Unusual NAV enhancements === */
+nav {
+    /* конусная рамка поверх стекла */
+}
+nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    padding: 1px; /* толщина рамки */
+    background: conic-gradient(from 210deg, rgba(165,180,252,0.0), rgba(165,180,252,0.25), rgba(99,102,241,0.35), rgba(165,180,252,0.0));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+            mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events: none;
+}
+
+nav ul {
+    position: relative;
+    --count: 7; /* количество пунктов меню */
+}
+
+/* Комета-индикатор для горизонтальной версии (по умолчанию) */
+nav ul::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc((var(--i, 1) - 0.5) * (100% / var(--count)));
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), rgba(165,180,252,0.55) 35%, rgba(99,102,241,0.65) 60%, rgba(99,102,241,0.0) 70%);
+    box-shadow: 0 0 0 1px rgba(165,180,252,0.25) inset, 0 10px 28px rgba(99,102,241,0.22);
+    filter: blur(0.3px) saturate(110%);
+    opacity: 0.0;
+    transition: left .35s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+    pointer-events: none;
+}
+
+/* Хвост кометы */
+nav ul::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: calc((var(--i, 1) - 0.5) * (100% / var(--count)));
+    transform: translate(-50%, -50%) skewX(-12deg);
+    width: 86px;
+    height: 18px;
+    border-radius: 18px;
+    background: linear-gradient(90deg, rgba(99,102,241,0.0), rgba(165,180,252,0.35), rgba(99,102,241,0.0));
+    filter: blur(10px);
+    opacity: 0.0;
+    transition: left .35s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+    pointer-events: none;
+}
+
+/* Выбор цели индикатора по :has() */
+nav ul:has(li:nth-child(1) a:hover),
+nav ul:has(li:nth-child(1) a.active) { --i: 1; }
+nav ul:has(li:nth-child(2) a:hover),
+nav ul:has(li:nth-child(2) a.active) { --i: 2; }
+nav ul:has(li:nth-child(3) a:hover),
+nav ul:has(li:nth-child(3) a.active) { --i: 3; }
+nav ul:has(li:nth-child(4) a:hover),
+nav ul:has(li:nth-child(4) a.active) { --i: 4; }
+nav ul:has(li:nth-child(5) a:hover),
+nav ul:has(li:nth-child(5) a.active) { --i: 5; }
+nav ul:has(li:nth-child(6) a:hover),
+nav ul:has(li:nth-child(6) a.active) { --i: 6; }
+nav ul:has(li:nth-child(7) a:hover),
+nav ul:has(li:nth-child(7) a.active) { --i: 7; }
+
+/* Показ индикатора при ховере меню */
+nav ul:hover::after,
+nav ul:hover::before { opacity: 1; }
+
+/* Риппл-эффект на ссылках */
+nav a {
+    isolation: isolate;
+}
+nav a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(120px 120px at center, rgba(165,180,252,0.28), rgba(99,102,241,0.0) 60%);
+    transform: scale(0.2);
+    opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+    z-index: -1;
+}
+nav a:hover::after,
+nav a:focus-visible::after {
+    transform: scale(1);
+    opacity: 1;
+}
+
+/* Вертикальная версия: перемещение индикатора по оси Y */
+@media (min-width: 769px) {
+    .nav-container nav ul {
+        --item-h: 40px; /* приблизительная высота строки */
+        --gap: 0.75rem;
+        position: relative;
+    }
+    .nav-container nav ul::after {
+        top: calc( (var(--i, 1) - 0.5) * (var(--item-h) + var(--gap)) + 14px );
+        left: 18px;
+        transform: translate(-50%, -50%);
+        width: 16px;
+        height: 16px;
+        filter: blur(0px);
+    }
+    .nav-container nav ul::before {
+        top: calc( (var(--i, 1) - 0.5) * (var(--item-h) + var(--gap)) + 14px );
+        left: 30px;
+        width: 36px;
+        height: 10px;
+        filter: blur(8px);
+    }
+}
+
+/* Desktop toggle visibility for nav */
+@media (min-width: 769px) {
+    /* Показ кнопки меню и на десктопе */
+    .mobile-menu-btn {
+        display: flex;
+        position: fixed;
+        top: 24vh;
+        left: 24px;
+        right: auto;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        z-index: 1100;
+        background: rgba(18, 22, 45, 0.55);
+        border: 1px solid rgba(165, 180, 252, 0.25);
+        box-shadow: 0 8px 24px rgba(17,24,39,0.35);
+    }
+
+    /* Боковая панель по умолчанию видима как раньше */
+    .nav-container {
+        transition: transform 0.35s cubic-bezier(.2,.8,.2,1), opacity .25s ease;
+        will-change: transform, opacity;
+    }
+
+    /* Скрытое состояние: уезжает за экран влево, остаётся плавная тень */
+    .nav-container.is-hidden {
+        transform: translate(-130%, -50%);
+        opacity: 0.98;
+    }
+}
+
+/* Полное отключение кометы у навигации (на всех разрешениях) */
+nav ul::after, nav ul::before,
+.nav-container nav ul::after, .nav-container nav ul::before {
+    content: none !important;
+    display: none !important;
+    opacity: 0 !important;
 }
 
 
@@ -1390,4 +1672,163 @@ body.menu-open {
         height: 130px;
         margin-bottom: 1.5rem;
     }
+}
+
+/* Секции занимают экран и центрируют контент */
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 6rem 0; /* сохраняем вертикальный ритм */
+}
+
+/* Индивидуальные индиго-оттенки для секций */
+#home { background: var(--dark-gradient); }
+#about { background: linear-gradient(135deg, rgba(24, 31, 66, 0.9), rgba(32, 41, 84, 0.9)); }
+#skills { background: linear-gradient(135deg, rgba(26, 34, 72, 0.9), rgba(39, 49, 101, 0.9)); }
+#experience { background: linear-gradient(135deg, rgba(20, 27, 60, 0.9), rgba(31, 40, 88, 0.9)); }
+#features { background: linear-gradient(135deg, rgba(28, 36, 78, 0.9), rgba(46, 58, 118, 0.9)); }
+#projects { background: linear-gradient(135deg, rgba(22, 29, 66, 0.9), rgba(38, 48, 104, 0.9)); }
+#testimonials { background: linear-gradient(135deg, rgba(18, 24, 56, 0.9), rgba(33, 43, 94, 0.9)); }
+#contact { background: linear-gradient(135deg, rgba(16, 22, 50, 0.9), rgba(29, 38, 84, 0.9)); }
+
+/* Смягчим контент-контейнер при 100vh */
+.section > .container { width: 100%; }
+
+/* Мобильные уменьшения размеров */
+@media (max-width: 768px) {
+  .section { padding: 4rem 0; }
+  .section-title { font-size: clamp(1.6rem, 6vw, 2rem); margin-bottom: 1.75rem; }
+  .hero { padding: 6rem 1rem 3rem; }
+  .hero h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .hero h2 { font-size: clamp(1rem, 4.5vw, 1.25rem); }
+  .hero-description { font-size: 0.95rem; margin-bottom: 2rem; max-width: 90%; }
+  .hero-avatar { width: 120px; height: 120px; margin-bottom: 1rem; }
+  .btn { padding: 0.75rem 1.25rem; font-size: 0.9rem; }
+  .tech-category { padding: 1.25rem; border-radius: 16px; }
+  .tech-tag { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+  .features-grid { gap: 1rem; }
+  .feature-card { padding: 1.5rem; border-radius: 16px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+  .project-image { height: 160px; }
+  .project-info { padding: 1.25rem; }
+  .timeline-container { margin-top: 2rem; }
+  .testimonial-card { padding: 2rem; }
+  .contact-links { gap: 1rem; }
+}
+
+/* Scroll snap для секций: каждая секция занимает экран и не конфликтует с соседними */
+html, body { scroll-snap-type: y mandatory; scroll-padding-top: 0; }
+.section { scroll-snap-align: start; scroll-snap-stop: always; overflow: hidden; }
+
+/* Мобильные правки для "Что вы получаете" */
+@media (max-width: 768px) {
+  #features .features-grid { grid-template-columns: 1fr; gap: 0.75rem; margin-top: 1rem; }
+  #features .feature-card { padding: 1rem; border-radius: 12px; }
+  #features .feature-icon { font-size: 1.6rem; margin-bottom: 0.75rem; }
+  #features .feature-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+  #features .feature-card p { font-size: 0.9rem; }
+  #features .container { padding: 0 1rem; }
+}
+
+@media (max-width: 768px) {
+  /* Projects - мобильные размеры поменьше */
+  #projects .projects-grid { grid-template-columns: 1fr; gap: 0.75rem; }
+  #projects .project-image { height: 140px; }
+  #projects .project-info { padding: 1rem; }
+  #projects .project-info h3 { font-size: 1rem; }
+  #projects .project-info p { font-size: 0.9rem; margin-bottom: 0.75rem; }
+  #projects .project-tags span { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 12px; }
+
+  /* Testimonials - мобильные размеры поменьше */
+  #testimonials .testimonial-card { padding: 1.5rem; border-radius: 16px; }
+  #testimonials .testimonial-content p { font-size: 1rem; margin-bottom: 1rem; line-height: 1.5; }
+  #testimonials .testimonial-avatar { width: 44px; height: 44px; font-size: 1.2rem; }
+  #testimonials .testimonial-info h4 { font-size: 1rem; }
+  #testimonials .testimonial-info p { font-size: 0.8rem; }
+}
+
+@media (min-width: 769px) and (max-width: 1200px) {
+    .nav-container {
+        left: 16px;
+        width: 180px;
+        padding: 0.5rem;
+        border-radius: 12px;
+    }
+    .nav-container::before {
+        width: 2px;
+        opacity: 0.65;
+    }
+    .nav-container nav ul {
+        gap: 0.35rem;
+    }
+    .nav-container nav ul li a {
+        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem 0.5rem 1rem;
+        border-radius: 8px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1650px) {
+  .mobile-menu-btn { display: none !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1650px) {
+  /* Нижняя таб-панель вместо боковой навигации */
+  .nav-container {
+      top: auto;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      width: min(960px, 94%);
+      height: 64px;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      background: rgba(18, 22, 45, 0.65);
+      border: 1px solid rgba(165, 180, 252, 0.25);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+      overflow: hidden;
+  }
+  .nav-container::before { display: none; }
+  .nav-container nav { padding: 0; background: transparent; border: 0; box-shadow: none; }
+  .nav-container nav ul {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      height: 100%;
+  }
+  .nav-container nav ul li { flex: 1; display: flex; }
+  .nav-container nav ul li a {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem 0.5rem;
+      font-size: 0.85rem;
+      border-radius: 10px;
+      background: transparent;
+  }
+  /* Активный индикатор снизу у пункта (не бегущая линия) */
+  .nav-container nav ul li a::before {
+      left: 50% !important;
+      transform: translateX(-50%);
+      transform: translateY(-50%);
+      width: 38px;
+      height: 3px;
+      bottom: 6px;
+      background: linear-gradient(90deg, #a5b4fc, #6366f1);
+      opacity: 0;
+      transition: opacity .25s ease;
+  }
+  .nav-container nav ul li a:hover::before,
+  .nav-container nav ul li a.active::before { opacity: 1; }
+  /* Цвет текста и hover без увеличения фона */
+  .nav-container nav ul li a:hover,
+  .nav-container nav ul li a.active {
+      background: transparent;
+      box-shadow: none;
+      transform: none;
+      color: #fff;
+  }
 }

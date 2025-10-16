@@ -13,20 +13,20 @@
     <div class="animated-background"></div>
     
     <!-- Прогресс скролла -->
-    <div class="scroll-progress" id="scrollProgress"></div>
+        <div class="scroll-progress" id="scrollProgress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
     
     <!-- Контейнер для частиц -->
-    <div id="particles" class="particles-container"></div>
+    <div id="particles" class="particles-container" aria-hidden="true"></div>
     
     <!-- Плавающие элементы -->
-    <div class="floating-elements">
+    <div class="floating-elements" aria-hidden="true">
         <div class="floating-element"></div>
         <div class="floating-element"></div>
         <div class="floating-element"></div>
     </div>
 
     <!-- Навигация -->
-    <div class="nav-container" id="navContainer">
+    <div class="nav-container" id="navContainer" role="navigation" aria-label="Главная навигация">
         <nav>
             <ul>
                 <li><a href="#home" class="nav-link active">Главная</a></li>
@@ -41,7 +41,7 @@
     </div>
 
     <!-- Мобильное меню -->
-    <div class="mobile-menu-btn" id="mobileMenuBtn">
+    <div class="mobile-menu-btn" id="mobileMenuBtn" role="button" tabindex="0" aria-controls="navContainer" aria-expanded="false" aria-label="Открыть меню">
         <div class="hamburger"></div>
     </div>
 
@@ -49,8 +49,8 @@
     <section id="home" class="hero">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-avatar">
-                    <img src="IMG_E2541.jpg" alt="Мамадалиев Истам">
+                    <div class="hero-avatar">
+                    <img src="IMG_E2541.jpg" alt="Мамадалиев Истам" fetchpriority="high" decoding="async">
                 </div>
                 <h1>Мамадалиев Истам</h1>
                 <h2>Frontend Developer</h2>
@@ -213,7 +213,7 @@
             <div class="projects-grid">
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" alt="Интернет-магазин">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&h=400&fit=crop" alt="Интернет-магазин">
                         <div class="project-overlay">
                             <a href="https://cnc-project.vercel.app/" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -232,7 +232,7 @@
                 </div>
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Дашборд аналитики">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop" alt="Дашборд аналитики">
                         <div class="project-overlay">
                             <a href="#" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -251,7 +251,7 @@
                 </div>
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Веб-приложение">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Веб-приложение">
                         <div class="project-overlay">
                             <a href="#" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -336,27 +336,32 @@
     </section>
 
     <!-- Модальные окна -->
-    <div id="phoneModal" class="modal">
+    <div id="phoneModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="phoneModalTitle">
         <div class="modal-content">
             <button class="close-modal" onclick="closePhoneModal()">
                 <i class="bi bi-x-lg"></i>
             </button>
-            <h2>Мой номер телефона</h2>
+            <h2 id="phoneModalTitle">Мой номер телефона</h2>
             <a class="phone-number" href="tel:+998915295337">+998 91 529 53 37</a>
             <p class="modal-hint">Нажмите на номер для звонка</p>
         </div>
     </div>
 
-    <div id="emailModal" class="modal">
+    <div id="emailModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="emailModalTitle">
         <div class="modal-content">
             <button class="close-modal" onclick="closeEmailModal()">
                 <i class="bi bi-x-lg"></i>
             </button>
-            <h2>Мой Email</h2>
+            <h2 id="emailModalTitle">Мой Email</h2>
             <a href="mailto:mamadaliyevistam@gmail.com" class="email-link">mamadaliyevistam@gmail.com</a>
             <p class="modal-hint">Нажмите на email для отправки сообщения</p>
         </div>
     </div>
+
+    <!-- Кнопка Вверх -->
+    <button id="backToTop" class="back-to-top" aria-label="Наверх">
+        <i class="bi bi-arrow-up"></i>
+    </button>
     
     <script src="main.js"></script>
 </body>

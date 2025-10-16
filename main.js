@@ -2,21 +2,24 @@
 const scrollProgress = document.getElementById('scrollProgress');
 const navContainer = document.getElementById('navContainer'); 
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const backToTopBtn = document.getElementById('backToTop');
+const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 
 
-// Scroll indicator и навигация
+// Scroll indicator, навигация и кнопка "Вверх"
 window.addEventListener('scroll', () => {
     const scrollTop = document.documentElement.scrollTop;
     const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolled = (scrollTop / scrollHeight) * 100;
     
-    // Исправляем ID для scroll progress
+    // Прогрессбар + ARIA
     if (scrollProgress) {
         scrollProgress.style.width = scrolled + '%';
+        scrollProgress.setAttribute('aria-valuenow', String(Math.round(scrolled)));
     }
     
-    // Добавляем класс для навигации при прокрутке
+    // Навбар при прокрутке
     const nav = document.querySelector('nav');
     if (nav) {
         if (scrollTop > 50) {
@@ -26,14 +29,14 @@ window.addEventListener('scroll', () => {
         }
     }
     
-    // Анимация секций при прокрутке
-    document.querySelectorAll('.section').forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-        if (sectionTop < windowHeight * 0.75) {
-            section.classList.add('visible');
+    // Появление кнопки Вверх
+    if (backToTopBtn) {
+        if (scrollTop > 600) {
+            backToTopBtn.classList.add('show');
+        } else {
+            backToTopBtn.classList.remove('show');
         }
-    });
+    }
 });
 
 // Fade in animation с Intersection Observer
@@ -55,60 +58,70 @@ document.querySelectorAll('.fade-in').forEach(el => {
     observer.observe(el);
 });
 
-// Smooth scrolling для навигационных ссылок  
+// Smooth scrolling для навигационных ссылок (scrollIntoView + CSS scroll-margin-top)
 document.querySelectorAll('nav a[href^="#"], .hero-buttons a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
         const targetId = link.getAttribute('href');
+        if (targetId === '#home') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
         const target = document.querySelector(targetId);
         if (target) {
-            const offsetTop = target.offsetTop - 80;
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Кнопка Вверх
+if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+}
+
+// Активная навигация (scrollspy) через IntersectionObserver
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('nav a[href^="#"]');
+const scrollSpyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        const id = entry.target.getAttribute('id');
+        if (entry.isIntersecting) {
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
             });
         }
     });
-});
+}, { root: null, threshold: 0.6 });
 
-// Активная навигация
-window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a[href^="#"]');
-    
-    let currentSection = '';
-    sections.forEach(section => {
-        const sectionTop = section.getBoundingClientRect().top;
-        if (sectionTop <= 100) {
-            currentSection = section.getAttribute('id');
-        }
-    });
-    
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${currentSection}`) {
-            link.classList.add('active');
-        }
-    });
-});
+sections.forEach(section => scrollSpyObserver.observe(section));
 
-// Эффект параллакса при движении мыши
-document.addEventListener('mousemove', (e) => {
-    const mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
-    const mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
-    
-    // Параллакс для аватара
-    const avatar = document.querySelector('.hero-avatar');
-    if (avatar) {
-        avatar.style.transform = `translateX(${mouseX * 10}px) translateY(${mouseY * 10}px)`;
-    }
-    
-    // Параллакс для плавающих элементов
-    document.querySelectorAll('.floating-element').forEach((element, index) => {
-        const depth = (index + 1) * 5;
-        element.style.transform = `translateX(${mouseX * depth}px) translateY(${mouseY * depth}px)`;
+// Эффект параллакса при движении мыши (rAF + отключение на тач/мобильных/при reduce motion)
+(function setupParallax(){
+    const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouch || prefersReducedMotion || window.innerWidth < 1024) return;
+    let pending = false;
+    let lastX = 0, lastY = 0;
+    document.addEventListener('mousemove', (e) => {
+        lastX = (e.clientX / window.innerWidth - 0.5) * 2;
+        lastY = (e.clientY / window.innerHeight - 0.5) * 2;
+        if (pending) return;
+        pending = true;
+        requestAnimationFrame(() => {
+            const avatar = document.querySelector('.hero-avatar');
+            if (avatar) {
+                avatar.style.transform = `translateX(${lastX * 10}px) translateY(${lastY * 10}px)`;
+            }
+            document.querySelectorAll('.floating-element').forEach((element, index) => {
+                const depth = (index + 1) * 5;
+                element.style.transform = `translateX(${lastX * depth}px) translateY(${lastY * depth}px)`;
+            });
+            pending = false;
+        });
     });
-});
+})();
 
 // Интерактивные эффекты для карточек
 document.querySelectorAll('.skill-card, .feature-card, .project-card').forEach(card => {
@@ -219,6 +232,14 @@ if (mobileMenuBtn && navContainer) {
         
         // Добавляем/убираем класс для body чтобы предотвратить скролл
         document.body.classList.toggle('menu-open');
+        mobileMenuBtn.setAttribute('aria-expanded', mobileMenuBtn.classList.contains('active') ? 'true' : 'false');
+    });
+    // Активация по Enter/Space
+    mobileMenuBtn.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            mobileMenuBtn.click();
+        }
     });
     
     // Закрытие мобильного меню при клике на навигационную ссылку
@@ -237,6 +258,7 @@ if (mobileMenuBtn && navContainer) {
             navContainer.classList.remove('active');
             mobileMenuBtn.classList.remove('active');
             document.body.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
     });
     
@@ -246,6 +268,7 @@ if (mobileMenuBtn && navContainer) {
             navContainer.classList.remove('active');
             mobileMenuBtn.classList.remove('active');
             document.body.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
     });
     
@@ -255,9 +278,54 @@ if (mobileMenuBtn && navContainer) {
             navContainer.classList.remove('active');
             mobileMenuBtn.classList.remove('active');
             document.body.classList.remove('menu-open');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
         }
     });
 }
+
+// Desktop toggle for sidebar nav using same button
+(function setupDesktopNavToggle(){
+    if (!mobileMenuBtn || !navContainer) return;
+    const mqDesktop = window.matchMedia('(min-width: 769px)');
+
+    function applyDesktopState() {
+        if (mqDesktop.matches) {
+            // На десктопе кнопка управляет классом is-hidden у боковой панели
+            mobileMenuBtn.setAttribute('aria-label', navContainer.classList.contains('is-hidden') ? 'Открыть меню' : 'Скрыть меню');
+            mobileMenuBtn.setAttribute('aria-expanded', navContainer.classList.contains('is-hidden') ? 'false' : 'true');
+        }
+    }
+
+    // Клик по кнопке: если десктоп — переключаем is-hidden, если мобильный — как раньше (active)
+    mobileMenuBtn.addEventListener('click', () => {
+        if (mqDesktop.matches) {
+            navContainer.classList.toggle('is-hidden');
+            // Убираем мобильные классы во избежание конфликтов
+            navContainer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            mobileMenuBtn.classList.toggle('active');
+            applyDesktopState();
+        }
+    });
+
+    // При изменении размера экрана — сбрасываем состояния корректно
+    mqDesktop.addEventListener('change', () => {
+        if (mqDesktop.matches) {
+            // Входим в десктоп: закрываем мобильное, оставляем текущее is-hidden как есть
+            navContainer.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            mobileMenuBtn.classList.remove('active');
+        } else {
+            // Входим в мобильный: показываем панель (без is-hidden), управляем классом active
+            navContainer.classList.remove('is-hidden');
+            mobileMenuBtn.setAttribute('aria-expanded', 'false');
+        }
+        applyDesktopState();
+    });
+
+    // Первичная инициализация
+    applyDesktopState();
+})();
 
 
 // Эффект печатающегося текста для заголовка
@@ -288,10 +356,16 @@ window.addEventListener('load', () => {
     }
 });
 
-// Создание анимированных частиц
+// Создание анимированных частиц (с ограничением количества и паузой при скрытии вкладки)
+let particleCount = 0;
+const MAX_PARTICLES = 60;
+let particleIntervalId = null;
+
 function createParticle() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
+    if (prefersReducedMotion) return;
+    if (particleCount >= MAX_PARTICLES) return;
     
     const particle = document.createElement('div');
     particle.classList.add('particle');
@@ -310,16 +384,32 @@ function createParticle() {
     `;
 
     particlesContainer.appendChild(particle);
+    particleCount++;
 
     setTimeout(() => {
         if (particle.parentNode) {
             particle.remove();
+            particleCount = Math.max(0, particleCount - 1);
         }
     }, (duration + delay) * 1000);
 }
 
 // Создаем частицы периодически
-setInterval(createParticle, 300);
+function startParticles() {
+    if (prefersReducedMotion) return;
+    if (particleIntervalId) return;
+    particleIntervalId = setInterval(createParticle, 400);
+}
+function stopParticles() {
+    if (particleIntervalId) {
+        clearInterval(particleIntervalId);
+        particleIntervalId = null;
+    }
+}
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopParticles(); else startParticles();
+});
+startParticles();
 
 // Эффект 3D наклона для карточек
 document.querySelectorAll('.skill-card, .project-card').forEach(card => {
@@ -366,6 +456,7 @@ function updateScrollProgress() {
     const progressBar = document.getElementById('scrollProgress');
     if (progressBar) {
         progressBar.style.width = scrolled + '%';
+        progressBar.setAttribute('aria-valuenow', String(Math.round(scrolled)));
     }
 }
 
