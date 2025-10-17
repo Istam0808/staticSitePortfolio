@@ -262,31 +262,51 @@ window.addEventListener('scroll', handleScroll, { passive: true });
     });
 })();
 
-// Интерактивные эффекты для анимированных фигур
+// Интерактивные эффекты для анимированных фигур - ОПТИМИЗИРОВАННАЯ ВЕРСИЯ
 (function setupInteractiveShapes() {
     if (prefersReducedMotion || window.innerWidth < 768) return;
     
-    // Эффект следования за курсором
+    let isMouseMoving = false;
+    let mouseMoveTimeout;
+    
+    // Эффект следования за курсором с дебаунсингом
     document.addEventListener('mousemove', (e) => {
-        const shapes = document.querySelectorAll('.shape, .geo-element');
-        shapes.forEach((shape, index) => {
-            const rect = shape.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-            
-            const distance = Math.sqrt(
-                Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
-            );
-            
-            if (distance < 150) {
-                const intensity = Math.max(0, (150 - distance) / 150);
-                const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
-                const offsetX = Math.cos(angle) * intensity * 10;
-                const offsetY = Math.sin(angle) * intensity * 10;
+        if (isMouseMoving) return;
+        
+        clearTimeout(mouseMoveTimeout);
+        isMouseMoving = true;
+        
+        requestAnimationFrame(() => {
+            const shapes = document.querySelectorAll('.shape:not(:hover), .geo-element:not(:hover)');
+            shapes.forEach((shape, index) => {
+                const rect = shape.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
                 
-                shape.style.transform += ` translate(${offsetX}px, ${offsetY}px) scale(${1 + intensity * 0.1})`;
-            }
+                const distance = Math.sqrt(
+                    Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
+                );
+                
+                if (distance < 200) {
+                    const intensity = Math.max(0, (200 - distance) / 200);
+                    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+                    const offsetX = Math.cos(angle) * intensity * 8;
+                    const offsetY = Math.sin(angle) * intensity * 8;
+                    
+                    shape.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    shape.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${1 + intensity * 0.05})`;
+                } else {
+                    shape.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                    shape.style.transform = '';
+                }
+            });
+            
+            isMouseMoving = false;
         });
+        
+        mouseMoveTimeout = setTimeout(() => {
+            isMouseMoving = false;
+        }, 50);
     });
     
     // Эффект пульсации при клике
@@ -680,26 +700,7 @@ document.addEventListener('visibilitychange', () => {
 });
 startParticles();
 
-// Эффект 3D наклона для карточек
-document.querySelectorAll('.skill-card, .project-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        
-        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
-    });
-    
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = '';
-    });
-});
+// Удален 3D эффект наклона для карточек проектов
 
 // Анимация для таймлайна
 const timelineObserver = new IntersectionObserver((entries) => {
