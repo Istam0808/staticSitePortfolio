@@ -5,165 +5,15 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const backToTopBtn = document.getElementById('backToTop');
 const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// Загрузочный экран с отслеживанием ресурсов
+// Новый минималистичный загрузочный экран
 (function initPreloader() {
     const preloader = document.getElementById('preloader');
     const loaderBar = document.querySelector('.loader-bar');
     const loaderPercentage = document.querySelector('.loader-percentage');
-    const canvas = document.getElementById('loaderCanvas');
     
-    if (!preloader || !canvas) return;
+    if (!preloader || !loaderBar || !loaderPercentage) return;
     
-    const ctx = canvas.getContext('2d');
     let loadProgress = 0;
-    let resourcesLoaded = 0;
-    let totalResources = 0;
-    let animationId;
-    let particles = [];
-    
-    // Настройка canvas
-    function setupCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            initParticles();
-        });
-    }
-    
-    // Инициализация частиц
-    function initParticles() {
-        particles = [];
-        const particleCount = 250;
-        
-        for (let i = 0; i < particleCount; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                targetX: getTargetPosition(i).x,
-                targetY: getTargetPosition(i).y,
-                vx: 0,
-                vy: 0,
-                size: Math.random() * 3 + 1,
-                color: getRandomColor(),
-                opacity: Math.random() * 0.8 + 0.2
-            });
-        }
-    }
-    
-    // Получить целевую позицию для частицы (формирование букв M и I)
-    function getTargetPosition(index) {
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2 - 100;
-        
-        if (index < 125) {
-            // Буква M
-            const mWidth = 120;
-            const mHeight = 160;
-            const mLeft = centerX - 80;
-            
-            if (index < 30) {
-                // Левая вертикальная линия
-                return {
-                    x: mLeft + Math.random() * 8,
-                    y: centerY + Math.random() * mHeight
-                };
-            } else if (index < 60) {
-                // Правая вертикальная линия
-                return {
-                    x: mLeft + mWidth - Math.random() * 8,
-                    y: centerY + Math.random() * mHeight
-                };
-            } else if (index < 90) {
-                // Диагональная линия слева
-                const progress = (index - 60) / 30;
-                return {
-                    x: mLeft + progress * 60,
-                    y: centerY + progress * 80
-                };
-            } else {
-                // Диагональная линия справа
-                const progress = (index - 90) / 35;
-                return {
-                    x: mLeft + 60 - progress * 60,
-                    y: centerY + progress * 80
-                };
-            }
-        } else {
-            // Буква I
-            const iWidth = 20;
-            const iHeight = 160;
-            const iLeft = centerX + 20;
-            
-            if (index < 180) {
-                // Вертикальная линия
-                return {
-                    x: iLeft + Math.random() * iWidth,
-                    y: centerY + Math.random() * iHeight
-                };
-            } else if (index < 210) {
-                // Верхняя горизонтальная линия
-                return {
-                    x: iLeft - 15 + Math.random() * 50,
-                    y: centerY + Math.random() * 8
-                };
-            } else {
-                // Нижняя горизонтальная линия
-                return {
-                    x: iLeft - 15 + Math.random() * 50,
-                    y: centerY + iHeight - Math.random() * 8
-                };
-            }
-        }
-    }
-    
-    // Получить случайный корпоративный цвет
-    function getRandomColor() {
-        const colors = [
-            '#2563eb', // корпоративный синий
-            '#14b8a6', // бирюзовый
-            '#6366f1'  // индиго
-        ];
-        return colors[Math.floor(Math.random() * colors.length)];
-    }
-    
-    // Анимация частиц
-    function animateParticles() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        
-        particles.forEach(particle => {
-            // Движение к целевой позиции
-            const dx = particle.targetX - particle.x;
-            const dy = particle.targetY - particle.y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            if (distance > 2) {
-                particle.vx += dx * 0.01;
-                particle.vy += dy * 0.01;
-                particle.vx *= 0.95;
-                particle.vy *= 0.95;
-                
-                particle.x += particle.vx;
-                particle.y += particle.vy;
-            }
-            
-            // Рисование частицы
-            ctx.save();
-            ctx.globalAlpha = particle.opacity;
-            ctx.fillStyle = particle.color;
-            ctx.shadowColor = particle.color;
-            ctx.shadowBlur = 10;
-            
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-        });
-        
-        animationId = requestAnimationFrame(animateParticles);
-    }
     
     // Обновление прогресса
     function updateProgress(percent) {
@@ -172,14 +22,14 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
         loaderPercentage.textContent = Math.round(loadProgress) + '%';
     }
     
-    // Отслеживание загрузки ресурсов - УПРОЩЕННАЯ ВЕРСИЯ
+    // Отслеживание загрузки
     function trackResourceLoading() {
         const startTime = Date.now();
-        const minShowTime = 2000; // 2 секунды
-        const maxShowTime = 3000; // 3 секунды максимум
+        const minShowTime = 1500; // 1.5 секунды минимум
+        const maxShowTime = 2500; // 2.5 секунды максимум
         let isCompleted = false;
         
-        // Упрощенная проверка загрузки
+        // Проверка статуса загрузки
         function checkLoadStatus() {
             const images = document.querySelectorAll('img');
             const cssSheets = document.querySelectorAll('link[rel="stylesheet"]');
@@ -187,14 +37,12 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
             let allImagesLoaded = true;
             let allCssLoaded = true;
             
-            // Проверяем изображения
             images.forEach(img => {
                 if (!img.complete || img.naturalWidth === 0) {
                     allImagesLoaded = false;
                 }
             });
             
-            // Проверяем CSS
             cssSheets.forEach(link => {
                 if (!link.sheet) {
                     allCssLoaded = false;
@@ -204,7 +52,7 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
             return allImagesLoaded && allCssLoaded;
         }
         
-        // Плавное увеличение прогресса
+        // Плавное обновление прогресса
         function updateProgressSmooth() {
             const elapsed = Date.now() - startTime;
             const progressPercent = Math.min(95, (elapsed / minShowTime) * 100);
@@ -225,21 +73,17 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
             updateProgress(100);
             
             setTimeout(() => {
-                if (animationId) {
-                    cancelAnimationFrame(animationId);
-                }
                 preloader.classList.add('preloader-hidden');
                 
-                // Удаление элемента через 1 секунду
                 setTimeout(() => {
                     if (preloader && preloader.parentNode) {
                         preloader.parentNode.removeChild(preloader);
                     }
-                }, 1000);
-            }, 500);
+                }, 600);
+            }, 400);
         }
         
-        // Проверяем статус загрузки каждые 200мс
+        // Проверка ресурсов
         function checkResources() {
             if (isCompleted) return;
             
@@ -248,24 +92,17 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
             if (checkLoadStatus() && elapsed >= minShowTime) {
                 completeLoading();
             } else if (elapsed >= maxShowTime) {
-                // Принудительное завершение через 3 секунды
                 completeLoading();
             } else {
-                setTimeout(checkResources, 200);
+                setTimeout(checkResources, 100);
             }
         }
         
-        // Запускаем проверки
         updateProgressSmooth();
         checkResources();
     }
     
-    // Инициализация
-    setupCanvas();
-    initParticles();
-    animateParticles();
-    
-    // Запуск отслеживания загрузки после небольшой задержки
+    // Запуск
     setTimeout(trackResourceLoading, 100);
 })();
 
@@ -532,9 +369,15 @@ window.addEventListener('scroll', handleScroll, { passive: true });
     
     let isMouseMoving = false;
     let mouseMoveTimeout;
+    let lastMoveTime = 0;
+    const throttleDelay = 100; // Увеличен для лучшей производительности
     
-    // Эффект следования за курсором с дебаунсингом
+    // Эффект следования за курсором с throttling
     document.addEventListener('mousemove', (e) => {
+        const now = Date.now();
+        if (now - lastMoveTime < throttleDelay) return;
+        lastMoveTime = now;
+        
         if (isMouseMoving) return;
         
         clearTimeout(mouseMoveTimeout);
@@ -547,13 +390,16 @@ window.addEventListener('scroll', handleScroll, { passive: true });
                 const centerX = rect.left + rect.width / 2;
                 const centerY = rect.top + rect.height / 2;
                 
-                const distance = Math.sqrt(
-                    Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
-                );
+                const dx = e.clientX - centerX;
+                const dy = e.clientY - centerY;
+                // Оптимизация: используем квадрат расстояния
+                const distanceSquared = dx * dx + dy * dy;
+                const threshold = 40000; // 200 * 200
                 
-                if (distance < 200) {
+                if (distanceSquared < threshold) {
+                    const distance = Math.sqrt(distanceSquared);
                     const intensity = Math.max(0, (200 - distance) / 200);
-                    const angle = Math.atan2(e.clientY - centerY, e.clientX - centerX);
+                    const angle = Math.atan2(dy, dx);
                     const offsetX = Math.cos(angle) * intensity * 8;
                     const offsetY = Math.sin(angle) * intensity * 8;
                     
@@ -570,7 +416,7 @@ window.addEventListener('scroll', handleScroll, { passive: true });
         
         mouseMoveTimeout = setTimeout(() => {
             isMouseMoving = false;
-        }, 50);
+        }, throttleDelay);
     });
     
     // Эффект пульсации при клике
@@ -581,17 +427,22 @@ window.addEventListener('scroll', handleScroll, { passive: true });
             const centerX = rect.left + rect.width / 2;
             const centerY = rect.top + rect.height / 2;
             
-            const distance = Math.sqrt(
-                Math.pow(e.clientX - centerX, 2) + Math.pow(e.clientY - centerY, 2)
-            );
+            const dx = e.clientX - centerX;
+            const dy = e.clientY - centerY;
+            // Оптимизация: используем квадрат расстояния
+            const distanceSquared = dx * dx + dy * dy;
+            const threshold = 40000; // 200 * 200
             
-            if (distance < 200) {
+            if (distanceSquared < threshold) {
                 shape.style.animation = 'none';
                 shape.offsetHeight; // Принудительный reflow
                 shape.style.animation = shape.style.animation || 'morphingCircle1 20s ease-in-out infinite';
                 
-                // Эффект волны
-                shape.style.filter = 'brightness(1.5) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))';
+                // Эффект волны (упрощен на мобильных)
+                const filterEffect = window.innerWidth < 768 
+                    ? 'brightness(1.3)' 
+                    : 'brightness(1.5) drop-shadow(0 0 20px rgba(255, 255, 255, 0.5))';
+                shape.style.filter = filterEffect;
                 setTimeout(() => {
                     shape.style.filter = '';
                 }, 500);
@@ -900,7 +751,10 @@ window.addEventListener('load', () => {
 
 // Создание анимированных частиц (с ограничением количества и паузой при скрытии вкладки)
 let particleCount = 0;
-const MAX_PARTICLES = 60;
+// Оптимизация: меньше частиц на мобильных
+const isMobileDevice = window.innerWidth < 768;
+const isLowEndDevice = window.innerWidth < 480 || navigator.hardwareConcurrency <= 2;
+const MAX_PARTICLES = isLowEndDevice ? 15 : (isMobileDevice ? 25 : 50);
 let particleIntervalId = null;
 
 function createParticle() {
@@ -951,7 +805,9 @@ function createParticle() {
 function startParticles() {
     if (prefersReducedMotion) return;
     if (particleIntervalId) return;
-    particleIntervalId = setInterval(createParticle, 400);
+    // Оптимизация: реже создаем частицы на мобильных
+    const interval = isLowEndDevice ? 1200 : (isMobileDevice ? 800 : 500);
+    particleIntervalId = setInterval(createParticle, interval);
 }
 function stopParticles() {
     if (particleIntervalId) {

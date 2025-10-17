@@ -44,286 +44,211 @@ body {
     line-height: 1.6;
 }
 
-/* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
+/* === ЗАГРУЗОЧНЫЙ ЭКРАН - НОВЫЙ МИНИМАЛИСТИЧНЫЙ ДИЗАЙН === */
 .preloader {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: var(--loader-bg);
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
     z-index: 10000;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+    transition: opacity 0.6s ease-out;
 }
 
 .preloader.preloader-hidden {
     opacity: 0;
-    transform: scale(1.1);
     pointer-events: none;
 }
 
 .preloader-content {
     position: relative;
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 3rem;
 }
 
-/* Геометрические фигуры с морфингом */
-.loader-shapes {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+/* Логотип загрузчика */
+.loader-logo {
+    position: relative;
+    animation: logoFadeIn 1s ease-out forwards;
+    opacity: 0;
 }
 
-.loader-shape {
-    position: absolute;
-    border-radius: 50%;
-    animation: loaderMorph 10s ease-in-out infinite;
+.logo-image {
+    width: 500px;
+    max-width: 80vw;
+    height: auto;
+    filter: drop-shadow(0 0 40px rgba(20, 184, 166, 0.4)) 
+            drop-shadow(0 0 80px rgba(37, 99, 235, 0.3));
+    animation: logoFloat 3s ease-in-out infinite, logoPulse 2s ease-in-out infinite;
 }
 
-.loader-shape.shape-1 {
-    width: 200px;
-    height: 200px;
-    top: 15%;
-    left: 10%;
-    background: radial-gradient(circle, var(--corp-blue) 0%, transparent 70%);
-    box-shadow: var(--corp-glow-blue);
-    animation-delay: 0s;
+@keyframes logoFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-.loader-shape.shape-2 {
-    width: 150px;
-    height: 150px;
-    top: 60%;
-    right: 15%;
-    background: radial-gradient(circle, var(--corp-teal) 0%, transparent 70%);
-    box-shadow: var(--corp-glow-teal);
-    animation-delay: 3s;
+@keyframes logoFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
-.loader-shape.shape-3 {
-    width: 120px;
-    height: 120px;
-    bottom: 20%;
-    left: 20%;
-    background: radial-gradient(circle, var(--corp-indigo) 0%, transparent 70%);
-    box-shadow: var(--corp-glow-indigo);
-    animation-delay: 6s;
+@keyframes logoPulse {
+    0%, 100% {
+        filter: drop-shadow(0 0 40px rgba(20, 184, 166, 0.4)) 
+                drop-shadow(0 0 80px rgba(37, 99, 235, 0.3));
+    }
+    50% {
+        filter: drop-shadow(0 0 50px rgba(20, 184, 166, 0.6)) 
+                drop-shadow(0 0 100px rgba(37, 99, 235, 0.5));
+    }
 }
 
-/* Адаптация размеров фигур загрузочного экрана для мобильных */
+/* Адаптация логотипа для мобильных */
 @media (max-width: 768px) {
-    .loader-shape.shape-1 {
-        width: 120px;
-        height: 120px;
-        top: 20%;
-        left: 15%;
+    .logo-image {
+        width: 300px;
     }
     
-    .loader-shape.shape-2 {
-        width: 90px;
-        height: 90px;
-        top: 65%;
-        right: 20%;
-    }
-    
-    .loader-shape.shape-3 {
-        width: 80px;
-        height: 80px;
-        bottom: 25%;
-        left: 25%;
+    .preloader-content {
+        gap: 2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .loader-shape.shape-1 {
-        width: 80px;
-        height: 80px;
-        top: 25%;
-        left: 20%;
+    .logo-image {
+        width: 250px;
     }
     
-    .loader-shape.shape-2 {
-        width: 60px;
-        height: 60px;
-        top: 70%;
-        right: 25%;
+    .preloader-content {
+        gap: 1.5rem;
     }
-    
-    .loader-shape.shape-3 {
-        width: 50px;
-        height: 50px;
-        bottom: 30%;
-        left: 30%;
-    }
-}
-
-/* Canvas для частиц */
-#loaderCanvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* Центральный текст/инициалы */
-.loader-text {
-    display: flex;
-    gap: 40px;
-    z-index: 3;
-    margin-bottom: 60px;
-}
-
-.loader-initial {
-    font-size: 120px;
-    font-weight: 800;
-    color: transparent;
-    background: linear-gradient(45deg, var(--corp-blue), var(--corp-teal), var(--corp-indigo));
-    background-size: 200% 200%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    text-shadow: 
-        0 0 10px rgba(37, 99, 235, 0.6),
-        0 0 20px rgba(20, 184, 166, 0.4),
-        0 0 30px rgba(99, 102, 241, 0.3);
-    animation: loaderTextGlow 2s ease-in-out infinite alternate, loaderGradient 3s ease-in-out infinite;
-}
-
-/* Адаптация размера текста загрузочного экрана для мобильных */
-@media (max-width: 768px) {
-    .loader-initial {
-        font-size: 80px;
-    }
-    
-    .loader-text {
-        gap: 25px;
-        margin-bottom: 40px;
-    }
-}
-
-@media (max-width: 480px) {
-    .loader-initial {
-        font-size: 60px;
-    }
-    
-    .loader-text {
-        gap: 20px;
-        margin-bottom: 30px;
-    }
-}
-
-.loader-initial:first-child {
-    animation-delay: 0s;
-}
-
-.loader-initial:last-child {
-    animation-delay: 0.5s;
 }
 
 /* Прогресс загрузки */
 .loader-progress {
     position: relative;
-    width: 300px;
-    height: 4px;
+    width: 400px;
+    max-width: 80vw;
+    height: 3px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
+    border-radius: 10px;
     overflow: hidden;
-    z-index: 3;
+    animation: progressFadeIn 0.8s ease-out 0.3s forwards;
+    opacity: 0;
 }
 
-/* Адаптация прогресс-бара для мобильных */
+.loader-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--corp-blue), var(--corp-teal));
+    border-radius: 10px;
+    width: 0%;
+    transition: width 0.4s ease;
+    box-shadow: 
+        0 0 20px rgba(20, 184, 166, 0.6),
+        0 0 40px rgba(37, 99, 235, 0.4);
+}
+
+.loader-percentage {
+    position: absolute;
+    top: -35px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 2px;
+}
+
+/* Текст загрузки */
+.loader-text-info {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.6);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    animation: textFadeIn 0.8s ease-out 0.5s forwards;
+    opacity: 0;
+}
+
+.loader-dots {
+    display: inline-block;
+    animation: dotsAnimation 1.5s infinite;
+}
+
+@keyframes progressFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes textFadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.6;
+    }
+}
+
+@keyframes dotsAnimation {
+    0%, 20% {
+        content: '.';
+    }
+    40% {
+        content: '..';
+    }
+    60%, 100% {
+        content: '...';
+    }
+}
+
+/* Адаптация для мобильных */
 @media (max-width: 768px) {
     .loader-progress {
-        width: 250px;
-        height: 3px;
+        width: 300px;
+    }
+    
+    .loader-text-info {
+        font-size: 14px;
     }
 }
 
 @media (max-width: 480px) {
     .loader-progress {
-        width: 200px;
-        height: 3px;
+        width: 250px;
+    }
+    
+    .loader-text-info {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+    
+    .loader-percentage {
+        font-size: 12px;
     }
 }
 
-.loader-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--corp-blue), var(--corp-teal), var(--corp-indigo));
-    border-radius: 2px;
-    width: 0%;
-    transition: width 0.3s ease;
-    box-shadow: 
-        0 0 10px rgba(37, 99, 235, 0.4),
-        0 0 20px rgba(20, 184, 166, 0.3),
-        0 0 30px rgba(99, 102, 241, 0.2);
-}
-
-.loader-percentage {
-    position: absolute;
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--corp-blue);
-    text-shadow: 0 0 10px rgba(37, 99, 235, 0.6);
-}
-
-/* Анимации */
-@keyframes loaderMorph {
-    0%, 100% {
-        border-radius: 50%;
-        transform: rotate(0deg) scale(1);
-    }
-    25% {
-        border-radius: 30%;
-        transform: rotate(90deg) scale(1.1);
-    }
-    50% {
-        border-radius: 10%;
-        transform: rotate(180deg) scale(0.9);
-    }
-    75% {
-        border-radius: 40%;
-        transform: rotate(270deg) scale(1.05);
-    }
-}
-
-@keyframes loaderTextGlow {
-    0% {
-        filter: brightness(1);
-        transform: scale(1);
-    }
-    100% {
-        filter: brightness(1.3);
-        transform: scale(1.05);
-    }
-}
-
-@keyframes loaderGradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
 
 /* Animated Background */
 .animated-background {
@@ -1574,6 +1499,28 @@ nav.scrolled {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), filter 0.3s ease, animation-duration 0.5s ease;
 }
 
+/* GPU-ускорение для анимируемых элементов */
+.shape,
+.geo-element,
+.floating-element,
+.particle,
+.hero-avatar,
+.logo-image {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+/* Will-change только при взаимодействии для карточек (экономия памяти) */
+.tech-category:hover,
+.feature-card:hover,
+.project-card:hover,
+.testimonial-card:hover,
+.competency-card:hover,
+.experience-card:hover {
+    will-change: transform;
+}
+
 /* Интерактивные эффекты для анимированных фигур */
 .shape:hover {
     transform: scale(1.05) !important;
@@ -1649,6 +1596,34 @@ nav.scrolled {
         animation-duration: 15s !important;
         animation-timing-function: linear !important;
     }
+    
+    /* Оптимизация blur эффектов на мобильных */
+    nav,
+    .mobile-menu-btn,
+    .feature-card,
+    .project-card,
+    .testimonial-card,
+    .tech-category,
+    .contact-link,
+    .modal-content {
+        backdrop-filter: blur(10px) !important;
+    }
+    
+    /* Упрощаем тени на мобильных */
+    .hero-avatar,
+    .btn-primary,
+    .tech-category,
+    .feature-card,
+    .project-card,
+    .testimonial-card {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Скрываем некоторые декоративные фигуры на планшетах */
+    .shape:nth-child(n+4),
+    .geo-element:nth-child(n+3) {
+        opacity: 0.3;
+    }
 }
 
 /* Мобильная адаптация анимированных фигур */
@@ -1668,24 +1643,66 @@ nav.scrolled {
 @media (max-width: 480px) {
     /* Еще больше уменьшаем фигуры для телефонов, но не скрываем */
     .animated-shapes {
-        opacity: 0.7;
+        opacity: 0.5;
     }
     
     .shape {
-        opacity: 0.5;
+        opacity: 0.4;
         transform: scale(0.5) !important;
     }
     
     .geo-element {
-        opacity: 0.4;
+        opacity: 0.3;
         transform: scale(0.4) !important;
     }
     
     /* Упрощаем анимации на мобильных */
     .shape,
     .geo-element {
-        animation-duration: 18s !important;
+        animation-duration: 20s !important;
         animation-timing-function: linear !important;
+    }
+    
+    /* Максимальная оптимизация blur на слабых телефонах */
+    nav,
+    .mobile-menu-btn,
+    .feature-card,
+    .project-card,
+    .testimonial-card,
+    .tech-category,
+    .contact-link,
+    .modal-content {
+        backdrop-filter: blur(5px) !important;
+    }
+    
+    /* Минимальные тени */
+    .hero-avatar,
+    .btn-primary,
+    .tech-category,
+    .feature-card,
+    .project-card,
+    .testimonial-card {
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2) !important;
+    }
+    
+    /* Скрываем еще больше декоративных фигур на телефонах */
+    .shape:nth-child(n+3),
+    .geo-element:nth-child(n+2) {
+        display: none;
+    }
+    
+    /* Упрощаем анимации фона */
+    .animated-background::before,
+    .animated-background::after {
+        animation-duration: 40s !important;
+    }
+    
+    /* Отключаем сложные hover эффекты на телефонах */
+    .tech-category:hover,
+    .feature-card:hover,
+    .project-card:hover,
+    .testimonial-card:hover {
+        transform: translateY(-4px) scale(1.01) !important;
     }
 }
 
@@ -3572,22 +3589,14 @@ nav ul::after, nav ul::before,
 
 /* === АНИМАЦИИ МОРФИНГА ФИГУР === */
 
-/* Морфинг кругов для главной секции */
+/* Морфинг кругов для главной секции - ОПТИМИЗИРОВАНО */
 @keyframes morphingCircle1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 50%;
     }
-    25% { 
-        transform: translateX(20px) translateY(-15px) rotate(90deg) scale(1.1);
-        border-radius: 30% 70% 30% 70%;
-    }
     50% { 
-        transform: translateX(-10px) translateY(20px) rotate(180deg) scale(0.9);
-        border-radius: 70% 30% 70% 30%;
-    }
-    75% { 
-        transform: translateX(15px) translateY(-10px) rotate(270deg) scale(1.05);
+        transform: translateX(10px) translateY(-10px) rotate(180deg) scale(1.05);
         border-radius: 40% 60% 40% 60%;
     }
 }
@@ -3597,13 +3606,9 @@ nav ul::after, nav ul::before,
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 50%;
     }
-    33% { 
-        transform: translateX(-25px) translateY(15px) rotate(120deg) scale(1.15);
+    50% { 
+        transform: translateX(-15px) translateY(10px) rotate(180deg) scale(1.1);
         border-radius: 60% 40% 60% 40%;
-    }
-    66% { 
-        transform: translateX(20px) translateY(-20px) rotate(240deg) scale(0.85);
-        border-radius: 40% 60% 40% 60%;
     }
 }
 
@@ -3613,8 +3618,8 @@ nav ul::after, nav ul::before,
         border-radius: 50%;
     }
     50% { 
-        transform: translateX(-15px) translateY(10px) rotate(180deg) scale(1.2);
-        border-radius: 20% 80% 20% 80%;
+        transform: translateX(-10px) translateY(8px) rotate(180deg) scale(1.1);
+        border-radius: 40% 60% 40% 60%;
     }
 }
 
@@ -3623,33 +3628,21 @@ nav ul::after, nav ul::before,
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 50%;
     }
-    40% { 
-        transform: translateX(30px) translateY(-25px) rotate(144deg) scale(1.1);
-        border-radius: 70% 30% 70% 30%;
-    }
-    80% { 
-        transform: translateX(-20px) translateY(30px) rotate(288deg) scale(0.9);
-        border-radius: 30% 70% 30% 70%;
+    50% { 
+        transform: translateX(15px) translateY(-15px) rotate(180deg) scale(1.05);
+        border-radius: 60% 40% 60% 40%;
     }
 }
 
-/* Морфинг шестиугольников для секции "О себе" */
+/* Морфинг шестиугольников для секции "О себе" - ОПТИМИЗИРОВАНО */
 @keyframes morphingHexagon1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 30%;
     }
-    25% { 
-        transform: translateX(-20px) translateY(15px) rotate(60deg) scale(1.1);
-        border-radius: 50%;
-    }
     50% { 
-        transform: translateX(25px) translateY(-20px) rotate(120deg) scale(0.9);
-        border-radius: 20%;
-    }
-    75% { 
-        transform: translateX(-15px) translateY(-25px) rotate(180deg) scale(1.05);
-        border-radius: 40%;
+        transform: translateX(-10px) translateY(10px) rotate(180deg) scale(1.05);
+        border-radius: 50%;
     }
 }
 
@@ -3659,24 +3652,20 @@ nav ul::after, nav ul::before,
         border-radius: 40%;
     }
     50% { 
-        transform: translateX(20px) translateY(-15px) rotate(180deg) scale(1.2);
+        transform: translateX(10px) translateY(-10px) rotate(180deg) scale(1.1);
         border-radius: 60%;
     }
 }
 
-/* Морфинг треугольников для секции навыков */
+/* Морфинг треугольников для секции навыков - ОПТИМИЗИРОВАНО */
 @keyframes morphingTriangle1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 20%;
     }
-    33% { 
-        transform: translateX(-30px) translateY(20px) rotate(120deg) scale(1.15);
-        border-radius: 50%;
-    }
-    66% { 
-        transform: translateX(25px) translateY(-25px) rotate(240deg) scale(0.85);
-        border-radius: 10%;
+    50% { 
+        transform: translateX(-15px) translateY(10px) rotate(180deg) scale(1.08);
+        border-radius: 40%;
     }
 }
 
@@ -3686,8 +3675,8 @@ nav ul::after, nav ul::before,
         border-radius: 35%;
     }
     50% { 
-        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(1.1);
-        border-radius: 60%;
+        transform: translateX(10px) translateY(-10px) rotate(180deg) scale(1.05);
+        border-radius: 55%;
     }
 }
 
@@ -3697,28 +3686,20 @@ nav ul::after, nav ul::before,
         border-radius: 45%;
     }
     50% { 
-        transform: translateX(-15px) translateY(15px) rotate(180deg) scale(1.2);
-        border-radius: 20%;
+        transform: translateX(-10px) translateY(10px) rotate(180deg) scale(1.1);
+        border-radius: 25%;
     }
 }
 
-/* Морфинг звезд для секции компетенций */
+/* Морфинг звезд для секции компетенций - ОПТИМИЗИРОВАНО */
 @keyframes morphingStar1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 25%;
     }
-    25% { 
-        transform: translateX(-25px) translateY(20px) rotate(72deg) scale(1.1);
-        border-radius: 50%;
-    }
     50% { 
-        transform: translateX(30px) translateY(-25px) rotate(144deg) scale(0.9);
-        border-radius: 15%;
-    }
-    75% { 
-        transform: translateX(-20px) translateY(-30px) rotate(216deg) scale(1.05);
-        border-radius: 35%;
+        transform: translateX(-12px) translateY(12px) rotate(180deg) scale(1.05);
+        border-radius: 45%;
     }
 }
 
@@ -3728,24 +3709,20 @@ nav ul::after, nav ul::before,
         border-radius: 30%;
     }
     50% { 
-        transform: translateX(25px) translateY(-20px) rotate(180deg) scale(1.2);
-        border-radius: 60%;
+        transform: translateX(12px) translateY(-12px) rotate(180deg) scale(1.1);
+        border-radius: 55%;
     }
 }
 
-/* Морфинг ромбов для секции опыта */
+/* Морфинг ромбов для секции опыта - ОПТИМИЗИРОВАНО */
 @keyframes morphingDiamond1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 20%;
     }
-    33% { 
-        transform: translateX(-25px) translateY(15px) rotate(90deg) scale(1.1);
-        border-radius: 50%;
-    }
-    66% { 
-        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(0.9);
-        border-radius: 10%;
+    50% { 
+        transform: translateX(-12px) translateY(10px) rotate(180deg) scale(1.05);
+        border-radius: 45%;
     }
 }
 
@@ -3755,8 +3732,8 @@ nav ul::after, nav ul::before,
         border-radius: 35%;
     }
     50% { 
-        transform: translateX(-20px) translateY(-25px) rotate(180deg) scale(1.15);
-        border-radius: 60%;
+        transform: translateX(-10px) translateY(-12px) rotate(180deg) scale(1.08);
+        border-radius: 55%;
     }
 }
 
@@ -3766,28 +3743,20 @@ nav ul::after, nav ul::before,
         border-radius: 40%;
     }
     50% { 
-        transform: translateX(15px) translateY(-15px) rotate(180deg) scale(1.2);
-        border-radius: 20%;
+        transform: translateX(10px) translateY(-10px) rotate(180deg) scale(1.1);
+        border-radius: 25%;
     }
 }
 
-/* Морфинг пятиугольников для секции "Что получаете" */
+/* Морфинг пятиугольников для секции "Что получаете" - ОПТИМИЗИРОВАНО */
 @keyframes morphingPentagon1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 30%;
     }
-    25% { 
-        transform: translateX(-20px) translateY(20px) rotate(72deg) scale(1.1);
-        border-radius: 50%;
-    }
     50% { 
-        transform: translateX(25px) translateY(-20px) rotate(144deg) scale(0.9);
-        border-radius: 20%;
-    }
-    75% { 
-        transform: translateX(-15px) translateY(-25px) rotate(216deg) scale(1.05);
-        border-radius: 40%;
+        transform: translateX(-10px) translateY(10px) rotate(180deg) scale(1.05);
+        border-radius: 50%;
     }
 }
 
@@ -3797,24 +3766,20 @@ nav ul::after, nav ul::before,
         border-radius: 35%;
     }
     50% { 
-        transform: translateX(20px) translateY(-20px) rotate(180deg) scale(1.2);
-        border-radius: 60%;
+        transform: translateX(10px) translateY(-10px) rotate(180deg) scale(1.1);
+        border-radius: 55%;
     }
 }
 
-/* Морфинг восьмиугольников для секции проектов */
+/* Морфинг восьмиугольников для секции проектов - ОПТИМИЗИРОВАНО */
 @keyframes morphingOctagon1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 25%;
     }
-    33% { 
-        transform: translateX(-30px) translateY(25px) rotate(45deg) scale(1.1);
+    50% { 
+        transform: translateX(-15px) translateY(12px) rotate(180deg) scale(1.05);
         border-radius: 50%;
-    }
-    66% { 
-        transform: translateX(25px) translateY(-30px) rotate(135deg) scale(0.9);
-        border-radius: 15%;
     }
 }
 
@@ -3824,8 +3789,8 @@ nav ul::after, nav ul::before,
         border-radius: 30%;
     }
     50% { 
-        transform: translateX(-25px) translateY(-30px) rotate(180deg) scale(1.15);
-        border-radius: 60%;
+        transform: translateX(-12px) translateY(-15px) rotate(180deg) scale(1.08);
+        border-radius: 55%;
     }
 }
 
@@ -3840,43 +3805,27 @@ nav ul::after, nav ul::before,
     }
 }
 
-/* Морфинг сердца для секции отзывов */
+/* Морфинг сердца для секции отзывов - ОПТИМИЗИРОВАНО */
 @keyframes morphingHeart1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 50% 20% 50% 20%;
     }
-    25% { 
-        transform: translateX(-20px) translateY(15px) rotate(30deg) scale(1.1);
-        border-radius: 60% 40% 60% 40%;
-    }
     50% { 
-        transform: translateX(25px) translateY(-20px) rotate(-30deg) scale(0.9);
-        border-radius: 40% 60% 40% 60%;
-    }
-    75% { 
-        transform: translateX(-15px) translateY(-25px) rotate(60deg) scale(1.05);
-        border-radius: 30% 70% 30% 70%;
+        transform: translateX(-10px) translateY(10px) rotate(180deg) scale(1.05);
+        border-radius: 60% 40% 60% 40%;
     }
 }
 
-/* Морфинг волн для секции контактов */
+/* Морфинг волн для секции контактов - ОПТИМИЗИРОВАНО */
 @keyframes morphingWave1 {
     0%, 100% { 
         transform: translateX(0) translateY(0) rotate(0deg) scale(1);
         border-radius: 40% 60% 40% 60%;
     }
-    25% { 
-        transform: translateX(-20px) translateY(20px) rotate(45deg) scale(1.1);
-        border-radius: 60% 40% 60% 40%;
-    }
     50% { 
-        transform: translateX(25px) translateY(-25px) rotate(-45deg) scale(0.9);
-        border-radius: 30% 70% 30% 70%;
-    }
-    75% { 
-        transform: translateX(-15px) translateY(-20px) rotate(90deg) scale(1.05);
-        border-radius: 50% 50% 50% 50%;
+        transform: translateX(-10px) translateY(10px) rotate(180deg) scale(1.05);
+        border-radius: 60% 40% 60% 40%;
     }
 }
 
@@ -3886,24 +3835,18 @@ nav ul::after, nav ul::before,
         border-radius: 60% 40% 60% 40%;
     }
     50% { 
-        transform: translateX(20px) translateY(-25px) rotate(180deg) scale(1.2);
+        transform: translateX(10px) translateY(-12px) rotate(180deg) scale(1.1);
         border-radius: 40% 60% 40% 60%;
     }
 }
 
-/* === АНИМАЦИИ ПЛАВАНИЯ ГЕОМЕТРИЧЕСКИХ ЭЛЕМЕНТОВ === */
+/* === АНИМАЦИИ ПЛАВАНИЯ ГЕОМЕТРИЧЕСКИХ ЭЛЕМЕНТОВ - ОПТИМИЗИРОВАНО === */
 @keyframes floatingTriangle {
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    25% { 
-        transform: translateY(-20px) rotate(90deg) scale(1.1);
-    }
     50% { 
-        transform: translateY(-10px) rotate(180deg) scale(0.9);
-    }
-    75% { 
-        transform: translateY(-25px) rotate(270deg) scale(1.05);
+        transform: translateY(-15px) rotate(180deg) scale(1.05);
     }
 }
 
@@ -3911,11 +3854,8 @@ nav ul::after, nav ul::before,
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    33% { 
-        transform: translateY(-15px) rotate(120deg) scale(1.1);
-    }
-    66% { 
-        transform: translateY(-25px) rotate(240deg) scale(0.9);
+    50% { 
+        transform: translateY(-18px) rotate(180deg) scale(1.05);
     }
 }
 
@@ -3924,7 +3864,7 @@ nav ul::after, nav ul::before,
         transform: translateY(0px) rotate(0deg) scale(1);
     }
     50% { 
-        transform: translateY(-20px) rotate(180deg) scale(1.2);
+        transform: translateY(-15px) rotate(180deg) scale(1.1);
     }
 }
 
@@ -3932,14 +3872,8 @@ nav ul::after, nav ul::before,
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    25% { 
-        transform: translateY(-18px) rotate(45deg) scale(1.1);
-    }
     50% { 
-        transform: translateY(-12px) rotate(90deg) scale(0.9);
-    }
-    75% { 
-        transform: translateY(-22px) rotate(135deg) scale(1.05);
+        transform: translateY(-16px) rotate(180deg) scale(1.05);
     }
 }
 
@@ -3947,11 +3881,8 @@ nav ul::after, nav ul::before,
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    33% { 
-        transform: translateY(-16px) rotate(72deg) scale(1.15);
-    }
-    66% { 
-        transform: translateY(-24px) rotate(144deg) scale(0.85);
+    50% { 
+        transform: translateY(-18px) rotate(180deg) scale(1.08);
     }
 }
 
@@ -3959,14 +3890,8 @@ nav ul::after, nav ul::before,
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    25% { 
-        transform: translateY(-14px) rotate(45deg) scale(1.1);
-    }
     50% { 
-        transform: translateY(-8px) rotate(90deg) scale(0.9);
-    }
-    75% { 
-        transform: translateY(-20px) rotate(135deg) scale(1.05);
+        transform: translateY(-14px) rotate(180deg) scale(1.05);
     }
 }
 
@@ -3974,11 +3899,8 @@ nav ul::after, nav ul::before,
     0%, 100% { 
         transform: translateY(0px) rotate(0deg) scale(1);
     }
-    33% { 
-        transform: translateY(-17px) rotate(72deg) scale(1.1);
-    }
-    66% { 
-        transform: translateY(-23px) rotate(144deg) scale(0.9);
+    50% { 
+        transform: translateY(-17px) rotate(180deg) scale(1.05);
     }
 }
 
@@ -3987,7 +3909,7 @@ nav ul::after, nav ul::before,
         transform: translateY(0px) rotate(0deg) scale(1);
     }
     50% { 
-        transform: translateY(-19px) rotate(180deg) scale(1.2);
+        transform: translateY(-16px) rotate(180deg) scale(1.1);
     }
 }
 
