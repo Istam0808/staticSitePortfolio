@@ -5,6 +5,270 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const backToTopBtn = document.getElementById('backToTop');
 const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Загрузочный экран с отслеживанием ресурсов
+(function initPreloader() {
+    const preloader = document.getElementById('preloader');
+    const loaderBar = document.querySelector('.loader-bar');
+    const loaderPercentage = document.querySelector('.loader-percentage');
+    const canvas = document.getElementById('loaderCanvas');
+    
+    if (!preloader || !canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let loadProgress = 0;
+    let resourcesLoaded = 0;
+    let totalResources = 0;
+    let animationId;
+    let particles = [];
+    
+    // Настройка canvas
+    function setupCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+    }
+    
+    // Инициализация частиц
+    function initParticles() {
+        particles = [];
+        const particleCount = 250;
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                targetX: getTargetPosition(i).x,
+                targetY: getTargetPosition(i).y,
+                vx: 0,
+                vy: 0,
+                size: Math.random() * 3 + 1,
+                color: getRandomColor(),
+                opacity: Math.random() * 0.8 + 0.2
+            });
+        }
+    }
+    
+    // Получить целевую позицию для частицы (формирование букв M и I)
+    function getTargetPosition(index) {
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2 - 100;
+        
+        if (index < 125) {
+            // Буква M
+            const mWidth = 120;
+            const mHeight = 160;
+            const mLeft = centerX - 80;
+            
+            if (index < 30) {
+                // Левая вертикальная линия
+                return {
+                    x: mLeft + Math.random() * 8,
+                    y: centerY + Math.random() * mHeight
+                };
+            } else if (index < 60) {
+                // Правая вертикальная линия
+                return {
+                    x: mLeft + mWidth - Math.random() * 8,
+                    y: centerY + Math.random() * mHeight
+                };
+            } else if (index < 90) {
+                // Диагональная линия слева
+                const progress = (index - 60) / 30;
+                return {
+                    x: mLeft + progress * 60,
+                    y: centerY + progress * 80
+                };
+            } else {
+                // Диагональная линия справа
+                const progress = (index - 90) / 35;
+                return {
+                    x: mLeft + 60 - progress * 60,
+                    y: centerY + progress * 80
+                };
+            }
+        } else {
+            // Буква I
+            const iWidth = 20;
+            const iHeight = 160;
+            const iLeft = centerX + 20;
+            
+            if (index < 180) {
+                // Вертикальная линия
+                return {
+                    x: iLeft + Math.random() * iWidth,
+                    y: centerY + Math.random() * iHeight
+                };
+            } else if (index < 210) {
+                // Верхняя горизонтальная линия
+                return {
+                    x: iLeft - 15 + Math.random() * 50,
+                    y: centerY + Math.random() * 8
+                };
+            } else {
+                // Нижняя горизонтальная линия
+                return {
+                    x: iLeft - 15 + Math.random() * 50,
+                    y: centerY + iHeight - Math.random() * 8
+                };
+            }
+        }
+    }
+    
+    // Получить случайный корпоративный цвет
+    function getRandomColor() {
+        const colors = [
+            '#2563eb', // корпоративный синий
+            '#14b8a6', // бирюзовый
+            '#6366f1'  // индиго
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+    }
+    
+    // Анимация частиц
+    function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            // Движение к целевой позиции
+            const dx = particle.targetX - particle.x;
+            const dy = particle.targetY - particle.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            if (distance > 2) {
+                particle.vx += dx * 0.01;
+                particle.vy += dy * 0.01;
+                particle.vx *= 0.95;
+                particle.vy *= 0.95;
+                
+                particle.x += particle.vx;
+                particle.y += particle.vy;
+            }
+            
+            // Рисование частицы
+            ctx.save();
+            ctx.globalAlpha = particle.opacity;
+            ctx.fillStyle = particle.color;
+            ctx.shadowColor = particle.color;
+            ctx.shadowBlur = 10;
+            
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        });
+        
+        animationId = requestAnimationFrame(animateParticles);
+    }
+    
+    // Обновление прогресса
+    function updateProgress(percent) {
+        loadProgress = Math.min(100, Math.max(0, percent));
+        loaderBar.style.width = loadProgress + '%';
+        loaderPercentage.textContent = Math.round(loadProgress) + '%';
+    }
+    
+    // Отслеживание загрузки ресурсов - УПРОЩЕННАЯ ВЕРСИЯ
+    function trackResourceLoading() {
+        const startTime = Date.now();
+        const minShowTime = 2000; // 2 секунды
+        const maxShowTime = 3000; // 3 секунды максимум
+        let isCompleted = false;
+        
+        // Упрощенная проверка загрузки
+        function checkLoadStatus() {
+            const images = document.querySelectorAll('img');
+            const cssSheets = document.querySelectorAll('link[rel="stylesheet"]');
+            
+            let allImagesLoaded = true;
+            let allCssLoaded = true;
+            
+            // Проверяем изображения
+            images.forEach(img => {
+                if (!img.complete || img.naturalWidth === 0) {
+                    allImagesLoaded = false;
+                }
+            });
+            
+            // Проверяем CSS
+            cssSheets.forEach(link => {
+                if (!link.sheet) {
+                    allCssLoaded = false;
+                }
+            });
+            
+            return allImagesLoaded && allCssLoaded;
+        }
+        
+        // Плавное увеличение прогресса
+        function updateProgressSmooth() {
+            const elapsed = Date.now() - startTime;
+            const progressPercent = Math.min(95, (elapsed / minShowTime) * 100);
+            updateProgress(progressPercent);
+            
+            if (elapsed < maxShowTime && !isCompleted) {
+                requestAnimationFrame(updateProgressSmooth);
+            } else if (!isCompleted) {
+                completeLoading();
+            }
+        }
+        
+        // Завершение загрузки
+        function completeLoading() {
+            if (isCompleted) return;
+            isCompleted = true;
+            
+            updateProgress(100);
+            
+            setTimeout(() => {
+                if (animationId) {
+                    cancelAnimationFrame(animationId);
+                }
+                preloader.classList.add('preloader-hidden');
+                
+                // Удаление элемента через 1 секунду
+                setTimeout(() => {
+                    if (preloader && preloader.parentNode) {
+                        preloader.parentNode.removeChild(preloader);
+                    }
+                }, 1000);
+            }, 500);
+        }
+        
+        // Проверяем статус загрузки каждые 200мс
+        function checkResources() {
+            if (isCompleted) return;
+            
+            const elapsed = Date.now() - startTime;
+            
+            if (checkLoadStatus() && elapsed >= minShowTime) {
+                completeLoading();
+            } else if (elapsed >= maxShowTime) {
+                // Принудительное завершение через 3 секунды
+                completeLoading();
+            } else {
+                setTimeout(checkResources, 200);
+            }
+        }
+        
+        // Запускаем проверки
+        updateProgressSmooth();
+        checkResources();
+    }
+    
+    // Инициализация
+    setupCanvas();
+    initParticles();
+    animateParticles();
+    
+    // Запуск отслеживания загрузки после небольшой задержки
+    setTimeout(trackResourceLoading, 100);
+})();
+
 
 
 // Scroll indicator, навигация и кнопка "Вверх"
@@ -653,12 +917,12 @@ function createParticle() {
     const duration = Math.random() * 4 + 3;
     const delay = Math.random() * 2;
     
-    // Новые цвета для частиц
+    // Корпоративные цвета для частиц
     const colors = [
-        'rgba(240, 147, 251, 0.6)',
-        'rgba(245, 87, 108, 0.6)', 
-        'rgba(102, 126, 234, 0.6)',
-        'rgba(118, 75, 162, 0.6)'
+        'rgba(37, 99, 235, 0.6)',
+        'rgba(20, 184, 166, 0.6)', 
+        'rgba(99, 102, 241, 0.6)',
+        'rgba(30, 41, 59, 0.6)'
     ];
     const color = colors[Math.floor(Math.random() * colors.length)];
 
