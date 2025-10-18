@@ -2,11 +2,23 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <link rel="shortcut icon" href="аватар.JPG" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" href="style.css">
     <title>Мамадалиев Истам - Frontend Developer</title>
+    
+    <!-- Preload критических ресурсов -->
+    <link rel="preload" href="IMG_E2541.jpg" as="image" type="image/jpeg">
+    <link rel="preload" href="Istam_ake_name.png" as="image" type="image/png">
+    
+    <!-- DNS prefetch для внешних ресурсов -->
+    <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="//images.unsplash.com">
 </head>
 <body>
     <!-- Загрузочный экран -->
@@ -82,7 +94,7 @@
         <div class="container">
             <div class="hero-content">
                     <div class="hero-avatar">
-                    <img src="IMG_E2541.jpg" alt="Мамадалиев Истам" fetchpriority="high" decoding="async">
+                    <img src="IMG_E2541.jpg" alt="Мамадалиев Истам" fetchpriority="high" decoding="async" loading="eager" width="300" height="300">
                 </div>
                 <h1>Мамадалиев Истам</h1>
                 <h2>Frontend Developer</h2>
@@ -486,7 +498,7 @@
             <div class="projects-grid">
                 <a href="http://cnc-project.vercel.app/" class="project-card fade-in" target="_blank">
                     <div class="project-image">
-                        <img loading="lazy" decoding="async" src="/images/сnс.jpg" alt="CNC Electric - Интернет-магазин">
+                        <img loading="lazy" decoding="async" src="/images/сnс.jpg" alt="CNC Electric - Интернет-магазин" width="600" height="400">
                         <div class="project-overlay">
                             <div class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -506,7 +518,7 @@
                 </a>
                 <a href="https://www.unit-school.uz/" class="project-card fade-in" target="_blank">
                     <div class="project-image">
-                        <img loading="lazy" decoding="async" src="/images/Unit_School.png" alt="Unit-School.uz - Ed-tech приложение">
+                        <img loading="lazy" decoding="async" src="/images/Unit_School.png" alt="Unit-School.uz - Ed-tech приложение" width="600" height="400">
                         <div class="project-overlay">
                             <div class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -526,7 +538,7 @@
                 </a>
                 <div class="project-card fade-in">
                     <div class="project-image">
-                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="Telegram-бот лояльности">
+                        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop&auto=format&q=80" alt="Telegram-бот лояльности" width="600" height="400">
                         <div class="project-overlay">
                             <a href="#" class="project-link">
                                 <i class="bi bi-link-45deg"></i>
@@ -657,5 +669,15 @@
     </button>
     
     <script src="main.js"></script>
+    
+    <!-- Fallback для случаев, когда JavaScript не загружается -->
+    <noscript>
+        <style>
+            .preloader { display: none !important; }
+            .animated-shapes, .floating-elements, .particles-container { display: none !important; }
+            .nav-container { position: static; transform: none; }
+            .mobile-menu-btn { display: none !important; }
+        </style>
+    </noscript>
 </body>
 </html>

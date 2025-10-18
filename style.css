@@ -42,6 +42,12 @@ body {
     background: var(--dark-gradient);
     color: var(--text-primary);
     line-height: 1.6;
+    /* Мобильные оптимизации */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Отключаем горизонтальную прокрутку */
+    overflow-x: hidden;
 }
 
 /* === ЗАГРУЗОЧНЫЙ ЭКРАН - НОВЫЙ МИНИМАЛИСТИЧНЫЙ ДИЗАЙН === */
@@ -4333,6 +4339,72 @@ html, body {
 
 @media (min-width: 769px) and (max-width: 1650px) {
   .mobile-menu-btn { display: none !important; }
+}
+
+/* === ДОПОЛНИТЕЛЬНЫЕ МОБИЛЬНЫЕ ОПТИМИЗАЦИИ === */
+
+/* Отключаем сложные анимации на слабых устройствах */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Оптимизация для очень маленьких экранов */
+@media (max-width: 480px) {
+  /* Упрощаем загрузочный экран */
+  .preloader-content {
+    gap: 2rem;
+  }
+  
+  .logo-image {
+    width: 300px;
+    max-width: 90vw;
+  }
+  
+  /* Уменьшаем размеры шрифтов */
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .hero h2 {
+    font-size: 1.2rem;
+  }
+  
+  /* Упрощаем анимации */
+  .animated-shapes {
+    display: none;
+  }
+  
+  .floating-elements {
+    display: none;
+  }
+  
+  /* Отключаем сложные эффекты */
+  .particles-container {
+    display: none;
+  }
+}
+
+/* Оптимизация для медленного интернета */
+@media (max-width: 768px) {
+  /* Уменьшаем качество изображений */
+  img {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Упрощаем градиенты */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  }
+  
+  /* Отключаем сложные тени */
+  .feature-card, .project-card, .competency-card {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  }
 }
 
 @media (min-width: 769px) and (max-width: 1650px) {

@@ -5,6 +5,11 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 const backToTopBtn = document.getElementById('backToTop');
 const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// Мобильные оптимизации
+const isMobile = window.innerWidth < 768;
+const isLowEndDevice = window.innerWidth < 480 || navigator.hardwareConcurrency <= 2;
+const isSlowConnection = navigator.connection && (navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g');
+
 // Новый минималистичный загрузочный экран
 (function initPreloader() {
     const preloader = document.getElementById('preloader');
@@ -25,8 +30,9 @@ const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-re
     // Отслеживание загрузки
     function trackResourceLoading() {
         const startTime = Date.now();
-        const minShowTime = 1500; // 1.5 секунды минимум
-        const maxShowTime = 2500; // 2.5 секунды максимум
+        // Уменьшаем время загрузки для мобильных устройств
+        const minShowTime = isMobile ? 800 : 1500; // 0.8 секунды для мобильных, 1.5 для десктопа
+        const maxShowTime = isMobile ? 1500 : 2500; // 1.5 секунды для мобильных, 2.5 для десктопа
         let isCompleted = false;
         
         // Проверка статуса загрузки
@@ -324,7 +330,7 @@ window.addEventListener('scroll', handleScroll, { passive: true });
 // Эффект параллакса при движении мыши (rAF + отключение на тач/мобильных/при reduce motion)
 (function setupParallax(){
     const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouch || prefersReducedMotion || window.innerWidth < 1024) return;
+    if (isTouch || prefersReducedMotion || isMobile || isLowEndDevice || isSlowConnection) return;
     let pending = false;
     let lastX = 0, lastY = 0;
     document.addEventListener('mousemove', (e) => {
@@ -365,7 +371,7 @@ window.addEventListener('scroll', handleScroll, { passive: true });
 
 // Интерактивные эффекты для анимированных фигур - ОПТИМИЗИРОВАННАЯ ВЕРСИЯ
 (function setupInteractiveShapes() {
-    if (prefersReducedMotion || window.innerWidth < 768) return;
+    if (prefersReducedMotion || isMobile || isLowEndDevice || isSlowConnection) return;
     
     let isMouseMoving = false;
     let mouseMoveTimeout;
@@ -751,16 +757,20 @@ window.addEventListener('load', () => {
 
 // Создание анимированных частиц (с ограничением количества и паузой при скрытии вкладки)
 let particleCount = 0;
-// Оптимизация: меньше частиц на мобильных
-const isMobileDevice = window.innerWidth < 768;
-const isLowEndDevice = window.innerWidth < 480 || navigator.hardwareConcurrency <= 2;
-const MAX_PARTICLES = isLowEndDevice ? 15 : (isMobileDevice ? 25 : 50);
+// Оптимизация: меньше частиц на мобильных и слабых устройствах
+const MAX_PARTICLES = isLowEndDevice ? 5 : (isMobile ? 10 : (isSlowConnection ? 15 : 50));
 let particleIntervalId = null;
+
+// Отключаем частицы на слабых устройствах
+if (isLowEndDevice || isSlowConnection) {
+    console.log('Particles disabled for low-end device or slow connection');
+}
 
 function createParticle() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
     if (prefersReducedMotion) return;
+    if (isLowEndDevice || isSlowConnection) return; // Отключаем на слабых устройствах
     if (particleCount >= MAX_PARTICLES) return;
     
     const particle = document.createElement('div');
@@ -804,9 +814,10 @@ function createParticle() {
 // Создаем частицы периодически
 function startParticles() {
     if (prefersReducedMotion) return;
+    if (isLowEndDevice || isSlowConnection) return; // Отключаем на слабых устройствах
     if (particleIntervalId) return;
     // Оптимизация: реже создаем частицы на мобильных
-    const interval = isLowEndDevice ? 1200 : (isMobileDevice ? 800 : 500);
+    const interval = isLowEndDevice ? 2000 : (isMobile ? 1200 : 500);
     particleIntervalId = setInterval(createParticle, interval);
 }
 function stopParticles() {
@@ -856,6 +867,33 @@ window.addEventListener('scroll', updateScrollProgress);
 function scrollToTop() {
     console.log('scrollToTop function called');
     smoothScrollTo('#home');
+}
+
+// Обработка ошибок для мобильных устройств
+window.addEventListener('error', function(e) {
+    console.warn('JavaScript error detected:', e.error);
+    // Отключаем сложные эффекты при ошибках
+    if (isMobile || isLowEndDevice) {
+        document.querySelectorAll('.animated-shapes, .floating-elements, .particles-container').forEach(el => {
+            el.style.display = 'none';
+        });
+    }
+});
+
+// Проверка производительности
+if ('performance' in window) {
+    window.addEventListener('load', function() {
+        setTimeout(function() {
+            const perfData = performance.getEntriesByType('navigation')[0];
+            if (perfData && perfData.loadEventEnd - perfData.loadEventStart > 3000) {
+                console.log('Slow loading detected, disabling heavy effects');
+                // Отключаем тяжелые эффекты при медленной загрузке
+                document.querySelectorAll('.animated-shapes, .floating-elements, .particles-container').forEach(el => {
+                    el.style.display = 'none';
+                });
+            }
+        }, 1000);
+    });
 }
 
 console.log('Portfolio script loaded successfully!');
